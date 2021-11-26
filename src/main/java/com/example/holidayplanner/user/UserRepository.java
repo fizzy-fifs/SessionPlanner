@@ -1,4 +1,4 @@
-package user;
+package com.example.holidayplanner.user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
