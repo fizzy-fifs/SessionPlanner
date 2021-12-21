@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @Document(collection="User")
@@ -24,9 +25,13 @@ public class User {
     @Pattern(regexp = "^[A-Za-z]+$", message = "Last name can only contain letters")
     private String lastName;
 
+    @NotBlank(message = "User name cannot be blank")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "User name can only contain letters, numbers and underscores")
+    private String userName;
+
     @Past(message = "Please enter a valid date of birth")
     @DateTimeFormat( pattern = "dd-mm-yyyy" )
-    private LocalDate dob;
+    private Date dob;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message="Please provide a valid email address")
@@ -37,4 +42,9 @@ public class User {
     @Size(min = 8, message = "Password must have a minimum of 8 characters")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", message = "Password must contain at least one number, one uppercase character and one lowercase character")
     private String password;
+
+//    public User(String userName, String password) {
+//        this.userName = userName;
+//        this.password = password;
+//    }
 }
