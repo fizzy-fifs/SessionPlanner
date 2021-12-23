@@ -1,5 +1,6 @@
 package com.example.holidayplanner.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
@@ -30,7 +31,7 @@ public class User {
     private String userName;
 
     @Past(message = "Please enter a valid date of birth")
-    @DateTimeFormat( pattern = "dd-mm-yyyy" )
+    @JsonFormat( pattern = "dd/mm/yyyy" )
     private Date dob;
 
     @NotBlank(message = "Email cannot be blank")
