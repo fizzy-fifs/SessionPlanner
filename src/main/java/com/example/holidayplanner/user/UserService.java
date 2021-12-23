@@ -12,7 +12,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -28,4 +28,22 @@ public class UserService {
     }
 
     public List<User> getUsers() { return userRepository.findAll(); }
+
+    public String updateUser(String userId, User newUserInfo) {
+        User currentUserInfo = userRepository.findById(userId);
+
+        if (currentUserInfo == null) {
+            throw new IllegalStateException("user with id " + userId + " does not exists");
+        }
+
+        currentUserInfo.setFirstName(newUserInfo.getFirstName());
+        currentUserInfo.setLastName(newUserInfo.getLastName());
+        currentUserInfo.setUserName(newUserInfo.getUserName());
+        currentUserInfo.setDob(newUserInfo.getDob());
+        currentUserInfo.setEmail(newUserInfo.getEmail());
+        currentUserInfo.setPassword(newUserInfo.getPassword());
+
+        userRepository.save(currentUserInfo);
+        return "User has been successfully updated";
+    }
 }

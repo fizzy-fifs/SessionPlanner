@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1.0/users")
+@RequestMapping(path = "/api/v1.0/users")
 public class UserController {
 
     private final UserService userService;
@@ -25,4 +25,9 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() { return userService.getUsers(); }
+
+    @PutMapping (path = "/{userId}")
+    public String updateUser(@PathVariable("userId") String userId, @RequestBody User newUserInfo) {
+        return userService.updateUser(userId, newUserInfo);
+    }
 }
