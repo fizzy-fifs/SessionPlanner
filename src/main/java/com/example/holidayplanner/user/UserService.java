@@ -21,6 +21,8 @@ public class UserService {
     }
 
     public String addNewUser(User user) {
+        if(emailExists(user)){ return "Email already exists"; }
+
         String encodedPassword = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.insert(user);
@@ -46,4 +48,10 @@ public class UserService {
         userRepository.save(currentUserInfo);
         return "User has been successfully updated";
     }
+
+    private boolean emailExists(User user) {
+        User x = userRepository.findByEmail(user.getEmail());
+        return x == null ? false : true;
+    }
+
 }
