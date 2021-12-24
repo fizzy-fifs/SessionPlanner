@@ -1,5 +1,6 @@
 package com.example.holidayplanner.user;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,11 +33,12 @@ public class UserService {
     public List<User> getUsers() { return userRepository.findAll(); }
 
     public String updateUser(String userId, User newUserInfo) {
-        User currentUserInfo = userRepository.findById(userId);
 
-        if (currentUserInfo == null) {
-            throw new IllegalStateException("user with id " + userId + " does not exists");
-        }
+        var userIdToObjectId = new ObjectId(userId);
+
+        User currentUserInfo = userRepository.findById(userIdToObjectId);
+
+        if (currentUserInfo == null) {  return "user with id " + userId + " does not exists"; }
 
         currentUserInfo.setFirstName(newUserInfo.getFirstName());
         currentUserInfo.setLastName(newUserInfo.getLastName());

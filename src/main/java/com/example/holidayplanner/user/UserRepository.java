@@ -1,5 +1,6 @@
 package com.example.holidayplanner.user;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
@@ -7,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends MongoRepository<User, Long> {
     User findByUserName(String userName);
-    User findById(String userId);
+    User findById(ObjectId userId);
     User findByEmail(String email);
 }

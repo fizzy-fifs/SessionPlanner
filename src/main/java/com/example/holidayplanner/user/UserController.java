@@ -30,4 +30,7 @@ public class UserController {
     public String updateUser(@PathVariable("userId") String userId, @RequestBody User newUserInfo) {
         return userService.updateUser(userId, newUserInfo);
     }
+
+//    @DeleteMapping
+//    public String
 }
