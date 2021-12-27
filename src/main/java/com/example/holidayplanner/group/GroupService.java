@@ -36,8 +36,13 @@ public class GroupService implements ServiceInterface<Group> {
     }
 
     @Override
-    public String delete(String entityId) {
-        return null;
+    public String delete(String groupId) {
+
+        Group group = groupRepository.findById(groupId).get();
+
+        groupRepository.delete(group);
+
+        return  group.getName() + " has been deleted" ;
     }
 
     public String addGroupMember(String groupId, String userId) {

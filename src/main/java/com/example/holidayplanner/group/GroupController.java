@@ -1,20 +1,17 @@
 package com.example.holidayplanner.group;
 
 import com.example.holidayplanner.interfaces.ControllerInterface;
-import com.example.holidayplanner.user.User;
-import com.example.holidayplanner.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1.0/groups")
 public class GroupController implements ControllerInterface<Group> {
 
-    private GroupService groupService;
+    private final GroupService groupService;
 
     @Autowired
     public GroupController(GroupService groupService) { this.groupService = groupService; }
@@ -35,8 +32,9 @@ public class GroupController implements ControllerInterface<Group> {
     }
 
     @Override
-    public String delete(String id) {
-        return null;
+    @DeleteMapping(path = "/{groupId}")
+    public String delete(@PathVariable("groupId") String groupId) {
+        return groupService.delete(groupId);
     }
 
     @PostMapping(path = "/addmember/{groupId}")
