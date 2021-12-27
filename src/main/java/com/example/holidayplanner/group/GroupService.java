@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GroupService implements ServiceInterface<Group> {
 
-    private GroupRepository groupRepository;
-    private UserRepository userRepository;
+    private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public GroupService(GroupRepository groupRepository, UserRepository userRepository) {

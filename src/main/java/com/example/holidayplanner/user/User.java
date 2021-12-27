@@ -1,6 +1,7 @@
 package com.example.holidayplanner.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -14,31 +15,38 @@ import java.util.Date;
 @Document(collection="Users")
 public class User {
     @MongoId(value = FieldType.OBJECT_ID)
+    @JsonProperty
     private String id;
 
     @NotBlank(message = "First name cannot be blank")
     @Pattern(regexp = "^[A-Za-z]+$", message = "First name can only contain letters")
+    @JsonProperty
     private String firstName;
 
     @NotBlank(message = "Last name cannot be blank")
     @Pattern(regexp = "^[A-Za-z]+$", message = "Last name can only contain letters")
+    @JsonProperty
     private String lastName;
 
     @NotBlank(message = "User name cannot be blank")
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "User name can only contain letters, numbers and underscores")
+    @JsonProperty
     private String userName;
 
     @JsonFormat( pattern = "dd/MM/yyyy" )
+    @JsonProperty
     private LocalDate dob;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message="Please provide a valid email address")
     @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+    @JsonProperty
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, message = "Password must have a minimum of 8 characters")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", message = "Password must contain at least one number, one uppercase character and one lowercase character")
+    @JsonProperty
     private String password;
 
     public User() {}

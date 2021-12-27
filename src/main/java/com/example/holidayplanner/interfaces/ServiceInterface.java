@@ -1,6 +1,5 @@
 package com.example.holidayplanner.interfaces;
 
-import com.example.holidayplanner.user.User;
 
 import java.util.List;
 

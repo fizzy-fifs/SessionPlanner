@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.ArrayList;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @Data
 @Document(collection="Groups")
@@ -25,5 +23,5 @@ public class Group {
 
     public void addNewMember(User newGroupMember) { this.groupMembers.add(newGroupMember); }
 
-    public void removeMember(String id) { this.groupMembers.removeIf(member -> member.getId() == id); }
+    public void removeMember(String id) { this.groupMembers.removeIf(member -> member.getId().equals(id)); }
 }
