@@ -1,6 +1,6 @@
 package com.example.holidayplanner.user;
 
-import com.example.holidayplanner.Interfaces.ServiceInterface;
+import com.example.holidayplanner.interfaces.ServiceInterface;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

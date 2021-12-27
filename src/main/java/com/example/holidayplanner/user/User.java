@@ -1,21 +1,19 @@
 package com.example.holidayplanner.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
-@Document(collection="User")
+@Document(collection="Users")
 public class User {
-    @MongoId
+    @MongoId(value = FieldType.OBJECT_ID)
     private String id;
 
     @NotBlank(message = "First name cannot be blank")
@@ -30,9 +28,8 @@ public class User {
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "User name can only contain letters, numbers and underscores")
     private String userName;
 
-    @Past(message = "Please enter a valid date of birth")
-    @JsonFormat( pattern = "dd/mm/yyyy" )
-    private Date dob;
+    @JsonFormat( pattern = "dd/MM/yyyy" )
+    private LocalDate dob;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message="Please provide a valid email address")
@@ -44,4 +41,24 @@ public class User {
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", message = "Password must contain at least one number, one uppercase character and one lowercase character")
     private String password;
 
+    public User() {}
+
+    public User(String id, String firstName, String lastName, String userName, LocalDate dob, String email, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.dob = dob;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String firstName, String lastName, String userName, LocalDate dob, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.dob = dob;
+        this.email = email;
+        this.password = password;
+    }
 }

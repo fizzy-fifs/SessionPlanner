@@ -1,10 +1,7 @@
-package com.example.holidayplanner.Interfaces;
+package com.example.holidayplanner.interfaces;
 
-import com.example.holidayplanner.user.User;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 public interface ControllerInterface<T> {
