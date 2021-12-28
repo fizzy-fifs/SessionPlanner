@@ -1,5 +1,6 @@
 package com.example.holidayplanner.holiday;
 
+import com.example.holidayplanner.availableDates.AvailableDates;
 import com.example.holidayplanner.budget.Budget;
 import com.example.holidayplanner.group.Group;
 import com.example.holidayplanner.user.User;
@@ -27,6 +28,8 @@ public class Holiday {
 
     private ArrayList<Budget> budget;
 
+    private ArrayList<AvailableDates> availableDates;
+
 
     public Holiday() {}
 
@@ -50,10 +53,28 @@ public class Holiday {
         this.budget = budget;
     }
 
+    public Holiday(String name, Group group, ArrayList<User> holidayMakers, ArrayList<Budget> budget, ArrayList<AvailableDates> availableDates) {
+        this.name = name;
+        this.group = group;
+        this.holidayMakers = holidayMakers;
+        this.budget = budget;
+        this.availableDates = availableDates;
+    }
+
     public String getBudget()  {
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         try {
             return objectMapper.writeValueAsString(this.budget);
+        } catch (JsonProcessingException e) {
+            e.getMessage();
+        }
+        return null;
+    }
+
+    public String getAvailableDates() {
+        ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+        try {
+            return objectMapper.writeValueAsString(this.availableDates);
         } catch (JsonProcessingException e) {
             e.getMessage();
         }
