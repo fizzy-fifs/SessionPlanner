@@ -84,8 +84,6 @@ public class GroupTest {
 
         group.removeMember(user2.getId());
 
-        System.out.println(group);
-
         assertEquals(2, group.getGroupMembers().size());
         assertThat(group.getGroupMembers(), not(contains(user2)));
     }
