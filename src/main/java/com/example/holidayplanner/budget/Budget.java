@@ -26,7 +26,6 @@ public class Budget {
     private double budgetLowerLimit;
 
 
-
     public Budget(User user, double budgetUpperLimit, double budgetLowerLimit) {
         this.user = user;
         this.budgetUpperLimit = budgetUpperLimit;

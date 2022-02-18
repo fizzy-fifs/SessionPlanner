@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @Data
-@Document(collection="Available Dates")
+@Document(collection = "Available Dates")
 public class AvailableDates {
 
     @MongoId(value = FieldType.OBJECT_ID)

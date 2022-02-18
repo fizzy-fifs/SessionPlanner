@@ -38,10 +38,13 @@ public class Holiday {
 
     private ArrayList<AvailableDates> availableDates;
 
-//  Constructors
-    public Holiday() {}
+    //  Constructors
+    public Holiday() {
+    }
 
-    public Holiday(String name) { this.name = name; }
+    public Holiday(String name) {
+        this.name = name;
+    }
 
     public Holiday(String name, Group group) {
         this.name = name;
@@ -69,8 +72,8 @@ public class Holiday {
         this.availableDates = availableDates;
     }
 
-//    Methods
-    public String getBudget()  {
+    //    Methods
+    public String getBudget() {
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
         try {
             return objectMapper.writeValueAsString(this.budget);
@@ -90,17 +93,19 @@ public class Holiday {
         return null;
     }
 
-    public void addHolidayMaker(User newHolidayMaker){ this.holidayMakers.add(newHolidayMaker); }
+    public void addHolidayMaker(User newHolidayMaker) {
+        this.holidayMakers.add(newHolidayMaker);
+    }
 
-    public void removeHolidayMaker(String id) {
+    public void removeHolidayMaker(User user) {
         this.holidayMakers.removeIf(
-                holidayMaker -> holidayMaker.getId().equals(id));
+                holidayMaker -> holidayMaker.getId().equals(user.getId()));
     }
 
     public String[] aggregateHolidayBudgets() {
 
         double[] medianBudget = new double[this.budget.size()];
-        for (int i=0; i<this.budget.size(); i++) {
+        for (int i = 0; i < this.budget.size(); i++) {
             var median = calculateMedian(this.budget.get(i).getBudgetUpperLimit(),
                     this.budget.get(i).getBudgetLowerLimit());
             medianBudget[i] = median;
@@ -121,7 +126,7 @@ public class Holiday {
         double[] startDatesArray = new double[this.availableDates.size()];
         double[] endDatesArray = new double[this.availableDates.size()];
 
-        for (int i=0; i<this.availableDates.size(); i++) {
+        for (int i = 0; i < this.availableDates.size(); i++) {
             var startDateInMilli = ((double) this.availableDates.get(i).getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
             var endDateInMilli = ((double) this.availableDates.get(i).getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
 
@@ -129,35 +134,35 @@ public class Holiday {
             endDatesArray[i] = endDateInMilli;
         }
         var findMean = new Mean();
-        var averageStartDate = (long)findMean.evaluate(startDatesArray);
-        var averageEndDate = (long)findMean.evaluate(endDatesArray);
+        var averageStartDate = (long) findMean.evaluate(startDatesArray);
+        var averageEndDate = (long) findMean.evaluate(endDatesArray);
 
         var findSd = new StandardDeviation();
-        var sdOfStartDates = (long)findSd.evaluate(startDatesArray);
-        var sdOfEndDates = (long)findSd.evaluate(endDatesArray);
+        var sdOfStartDates = (long) findSd.evaluate(startDatesArray);
+        var sdOfEndDates = (long) findSd.evaluate(endDatesArray);
 
         LocalDate suggestedStartDate1 = Instant.ofEpochMilli(averageStartDate - sdOfStartDates)
-                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                .atZone(ZoneId.systemDefault()).toLocalDate();
 
         LocalDate suggestedStartDate2 = Instant.ofEpochMilli(averageStartDate)
-                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                .atZone(ZoneId.systemDefault()).toLocalDate();
 
         LocalDate suggestedStartDate3 = Instant.ofEpochMilli(averageStartDate + sdOfStartDates)
-                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                .atZone(ZoneId.systemDefault()).toLocalDate();
 
         LocalDate suggestedEndDate1 = Instant.ofEpochMilli(averageEndDate - sdOfEndDates)
-                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                .atZone(ZoneId.systemDefault()).toLocalDate();
 
         LocalDate suggestedEndDate2 = Instant.ofEpochMilli(averageEndDate)
-                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                .atZone(ZoneId.systemDefault()).toLocalDate();
 
         LocalDate suggestedEndDate3 = Instant.ofEpochMilli(averageEndDate + sdOfEndDates)
-                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                .atZone(ZoneId.systemDefault()).toLocalDate();
 
-        return new String[] {
-            suggestedStartDate1 + "-" + suggestedEndDate1,
-            suggestedStartDate2 + "-" + suggestedEndDate2,
-            suggestedStartDate3 + "-" + suggestedEndDate3
+        return new String[]{
+                suggestedStartDate1 + "-" + suggestedEndDate1,
+                suggestedStartDate2 + "-" + suggestedEndDate2,
+                suggestedStartDate3 + "-" + suggestedEndDate3
         };
     }
 
@@ -168,8 +173,8 @@ public class Holiday {
 
         if (range % 2 != 0) {
             return lowerLimit + medianIndex;
-        }else {
-            return ( (lowerLimit + medianIndex) + (lowerLimit + medianIndex) - 1) / 2;
+        } else {
+            return ((lowerLimit + medianIndex) + (lowerLimit + medianIndex) - 1) / 2;
         }
     }
 }
