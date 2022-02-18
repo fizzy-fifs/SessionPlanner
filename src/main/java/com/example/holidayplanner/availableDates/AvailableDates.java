@@ -33,6 +33,12 @@ public class AvailableDates {
     @JsonProperty
     private long nights;
 
+    public AvailableDates(User user, LocalDate startDate, LocalDate endDate) {
+        this.user = user;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public AvailableDates(User user, LocalDate startDate, LocalDate endDate, int flexibility) {
         this.user = user;
         this.startDate = startDate;

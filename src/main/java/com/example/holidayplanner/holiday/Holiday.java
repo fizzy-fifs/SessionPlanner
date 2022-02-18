@@ -9,12 +9,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.apache.commons.math3.stat.descriptive.moment.Mean;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
-import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+
+import static java.lang.Math.round;
 
 @Data
 @Document(collection = "Holidays")
@@ -92,25 +97,68 @@ public class Holiday {
                 holidayMaker -> holidayMaker.getId().equals(id));
     }
 
-    public double[] aggregateHolidayBudgets() {
+    public String[] aggregateHolidayBudgets() {
 
-        double medianBudget[] = new double[this.budget.size()];
-
+        double[] medianBudget = new double[this.budget.size()];
         for (int i=0; i<this.budget.size(); i++) {
-            var median = calculateMedian(this.budget.get(i).getBudgetUpperLimit(), this.budget.get(i).getBudgetLowerLimit());
+            var median = calculateMedian(this.budget.get(i).getBudgetUpperLimit(),
+                    this.budget.get(i).getBudgetLowerLimit());
             medianBudget[i] = median;
         }
 
         var findMean = new Mean();
         var average = findMean.evaluate(medianBudget);
 
-//        var findSd = new StandardDeviation();
-//        var sd = findSd.evaluate(medianBudget);
+        var findSd = new StandardDeviation();
+        var sd = findSd.evaluate(medianBudget);
 
-        var sd = calculateStandardDeviation(medianBudget);
+        DecimalFormat df = new DecimalFormat("0.00");
+        return new String[]{df.format(average - sd), df.format(average), df.format(average + sd)};
+    }
 
-        var aggregatedBudget = new double[]{average - sd, average, average + sd};
-        return aggregatedBudget;
+    public String[] aggregateDates() {
+
+        double[] startDatesArray = new double[this.availableDates.size()];
+        double[] endDatesArray = new double[this.availableDates.size()];
+
+        for (int i=0; i<this.availableDates.size(); i++) {
+            var startDateInMilli = ((double) this.availableDates.get(i).getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            var endDateInMilli = ((double) this.availableDates.get(i).getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+
+            startDatesArray[i] = startDateInMilli;
+            endDatesArray[i] = endDateInMilli;
+        }
+        var findMean = new Mean();
+        var averageStartDate = (long)findMean.evaluate(startDatesArray);
+        var averageEndDate = (long)findMean.evaluate(endDatesArray);
+
+        var findSd = new StandardDeviation();
+        var sdOfStartDates = (long)findSd.evaluate(startDatesArray);
+        var sdOfEndDates = (long)findSd.evaluate(endDatesArray);
+
+        LocalDate suggestedStartDate1 = Instant.ofEpochMilli(averageStartDate - sdOfStartDates)
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDate suggestedStartDate2 = Instant.ofEpochMilli(averageStartDate)
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDate suggestedStartDate3 = Instant.ofEpochMilli(averageStartDate + sdOfStartDates)
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDate suggestedEndDate1 = Instant.ofEpochMilli(averageEndDate - sdOfEndDates)
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDate suggestedEndDate2 = Instant.ofEpochMilli(averageEndDate)
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        LocalDate suggestedEndDate3 = Instant.ofEpochMilli(averageEndDate + sdOfEndDates)
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return new String[] {
+            suggestedStartDate1 + "-" + suggestedEndDate1,
+            suggestedStartDate2 + "-" + suggestedEndDate2,
+            suggestedStartDate3 + "-" + suggestedEndDate3
+        };
     }
 
     private double calculateMedian(double upperLimit, double lowerLimit) {
@@ -124,22 +172,4 @@ public class Holiday {
             return ( (lowerLimit + medianIndex) + (lowerLimit + medianIndex) - 1) / 2;
         }
     }
-
-    private double calculateStandardDeviation(double[] medianBudget) {
-
-        var findMean = new Mean();
-        var mean = findMean.evaluate(medianBudget);
-
-        double[] squaredDifferences = new double[medianBudget.length];
-        for (var median : medianBudget) {
-            var diff = median - mean;
-            var square = diff * diff;
-            squaredDifferences[(int) median] = square;
-        }
-
-        var meanOfSquaredDifferences = findMean.evaluate(squaredDifferences);
-        return Math.sqrt(meanOfSquaredDifferences);
-    }
-
-
 }

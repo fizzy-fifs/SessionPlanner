@@ -27,7 +27,7 @@ public class HolidayController implements ControllerInterface<Holiday> {
     }
 
     @GetMapping(path = "/getbudgetaggregates/{holidayId}")
-    public double[] getBudgetAggregates(@PathVariable("holidayId") String holidayId) {
+    public String[] getBudgetAggregates(@PathVariable("holidayId") String holidayId) {
         return holidayService.aggregateHolidayBudgets(holidayId);
     }
 

@@ -23,7 +23,7 @@ public class HolidayService implements ServiceInterface<Holiday> {
         return "Holiday has been successfully created";
     }
 
-    public double[] aggregateHolidayBudgets(String holidayId){
+    public String[] aggregateHolidayBudgets(String holidayId){
         Holiday holiday = holidayRepository.findById(holidayId).get();
         return holiday.aggregateHolidayBudgets();
     }
