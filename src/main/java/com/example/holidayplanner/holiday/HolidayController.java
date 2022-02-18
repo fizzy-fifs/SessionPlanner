@@ -31,6 +31,11 @@ public class HolidayController implements ControllerInterface<Holiday> {
         return holidayService.aggregateHolidayBudgets(holidayId);
     }
 
+    @GetMapping(path = "/getdateaggregates/{holidayId}")
+    public String[] getDateAggregates(@PathVariable("holidayId") String holidayId) {
+        return holidayService.aggregateDates(holidayId);
+    }
+
     @Override
     public List<Holiday> getAll() {
         return null;

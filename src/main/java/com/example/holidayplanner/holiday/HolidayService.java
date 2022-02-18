@@ -57,5 +57,8 @@ public class HolidayService implements ServiceInterface<Holiday> {
     }
 
 
-
+    public String[] aggregateDates(String holidayId) {
+        Holiday holiday = holidayRepository.findById(holidayId).get();
+        return holiday.aggregateDates();
+    }
 }
