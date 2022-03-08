@@ -1,6 +1,6 @@
-package com.example.holidayplanner.user;
+package com.example.crowdfunding.user;
 
-import com.example.holidayplanner.interfaces.ServiceInterface;
+import com.example.crowdfunding.interfaces.ServiceInterface;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,8 +43,7 @@ public class UserService implements ServiceInterface<User> {
 
         if (currentUserInfo == null) {  return "user with id " + userId + " does not exists"; }
 
-        currentUserInfo.setFirstName(newUserInfo.getFirstName());
-        currentUserInfo.setLastName(newUserInfo.getLastName());
+        currentUserInfo.setName(newUserInfo.getName());
         currentUserInfo.setUserName(newUserInfo.getUserName());
         currentUserInfo.setDob(newUserInfo.getDob());
         currentUserInfo.setEmail(newUserInfo.getEmail());

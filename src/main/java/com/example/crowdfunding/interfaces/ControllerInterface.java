@@ -1,4 +1,4 @@
-package com.example.holidayplanner.interfaces;
+package com.example.crowdfunding.interfaces;
 
 import org.springframework.validation.Errors;
 

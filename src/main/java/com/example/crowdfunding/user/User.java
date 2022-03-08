@@ -1,4 +1,4 @@
-package com.example.holidayplanner.user;
+package com.example.crowdfunding.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Document(collection="Users")
@@ -18,15 +17,10 @@ public class User {
     @JsonProperty
     private String id;
 
-    @NotBlank(message = "First name cannot be blank")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "First name can only contain letters")
+    @NotBlank(message = "Name cannot be blank")
+    @Pattern(regexp = "^[A-Za-z]+$", message = "Name can only contain letters")
     @JsonProperty
-    private String firstName;
-
-    @NotBlank(message = "Last name cannot be blank")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Last name can only contain letters")
-    @JsonProperty
-    private String lastName;
+    private String name;
 
     @NotBlank(message = "User name cannot be blank")
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "User name can only contain letters, numbers and underscores")
@@ -51,19 +45,8 @@ public class User {
 
     public User() {}
 
-    public User(String id, String firstName, String lastName, String userName, LocalDate dob, String email, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.dob = dob;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String firstName, String lastName, String userName, LocalDate dob, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String name, String userName, LocalDate dob, String email, String password) {
+        this.name = name;
         this.userName = userName;
         this.dob = dob;
         this.email = email;

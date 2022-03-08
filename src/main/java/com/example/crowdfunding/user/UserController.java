@@ -1,6 +1,6 @@
-package com.example.holidayplanner.user;
+package com.example.crowdfunding.user;
 
-import com.example.holidayplanner.interfaces.ControllerInterface;
+import com.example.crowdfunding.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;

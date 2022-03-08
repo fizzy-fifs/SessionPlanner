@@ -11,8 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>holiday-planner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>holiday-planner</name>
-	<description>Holiday Planner</description>
+	<name>crowdfunding</name>
+	<description>CrowdFunding</description>
 	<properties>
 		<java.version>16</java.version>
 	</properties>

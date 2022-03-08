@@ -1,4 +1,4 @@
-package com.example.holidayplanner.config;
+package com.example.crowdfunding.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

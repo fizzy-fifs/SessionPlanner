@@ -1,4 +1,4 @@
-package com.example.holidayplanner;
+package com.example.crowdfunding;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +7,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication()
-public class HolidayPlannerApplication {
+public class crowdfundingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HolidayPlannerApplication.class, args);
+		SpringApplication.run(crowdfundingApplication.class, args);
 	}
 
 }

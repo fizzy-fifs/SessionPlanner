@@ -1,4 +1,4 @@
-package com.example.holidayplanner.user;
+package com.example.crowdfunding.user;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
