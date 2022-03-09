@@ -135,15 +135,14 @@
 				</configuration>
 			</plugin>
 
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--				<version> 3.6.2</version>-->
-<!--                <configuration>-->
-<!--                    <source>16</source>-->
-<!--                    <target>11</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+				<version> 3.6.2</version>
+                <configuration>
+                    <target>11</target>
+                </configuration>
+            </plugin>
 
 <!--			<plugin>-->
 <!--				<groupId>com.heroku.sdk</groupId>-->
