@@ -1,5 +1,7 @@
 package com.example.crowdfunding.config;
 
+import com.example.crowdfunding.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,12 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+    private UserRepository userRepository;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("blah")
-                .password("blah")
-                .roles("USER");
+        auth.userDetailsService(myUserDetailsService);
     }
 
     @Override
@@ -36,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    public PasswordEncoder passwordEncoder() {
+        return new PasswordEncoderTest();
     }
 }

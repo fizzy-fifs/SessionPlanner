@@ -40,4 +40,5 @@ public class UserController implements ControllerInterface<User> {
     public String delete(@PathVariable("userId") String userId) {
         return userService.delete(userId);
     }
+
 }
