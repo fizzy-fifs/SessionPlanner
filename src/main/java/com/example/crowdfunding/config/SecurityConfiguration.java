@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,18 +36,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests().antMatchers(HttpMethod.POST).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.PUT).authenticated().and()
-            .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll()
-            .and()
-                .authorizeRequests().antMatchers("/api/v1.0/users/newuser").permitAll()
-            .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthEntryPoint)
-            .and()
-                .formLogin().loginProcessingUrl("/api/v1.0/users/{id}")
-            .and()
-                .logout();
+            .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/api/v1.0/users/newuser");
+        web.ignoring().antMatchers("/api/v1.0/users/{id}");
     }
 
     @Bean

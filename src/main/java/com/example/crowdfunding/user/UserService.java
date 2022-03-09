@@ -35,6 +35,17 @@ public class UserService implements ServiceInterface<User> {
     @Override
     public List<User> getAll() { return userRepository.findAll(); }
 
+    public User getUserById(String userId) throws Exception {
+        ObjectId userIdToObjectId = new ObjectId(userId);
+
+        User user = userRepository.findById(userIdToObjectId);
+
+        if (user == null) {
+            throw new Exception("User does not exist");
+        }
+
+        return user;
+    }
     @Override
     public String update(String userId, User newUserInfo) {
         ObjectId userIdToObjectId = new ObjectId(userId);
@@ -69,6 +80,7 @@ public class UserService implements ServiceInterface<User> {
         User x = userRepository.findByEmail(user.getEmail());
         return x == null ? false : true;
     }
+
 
 
 }
