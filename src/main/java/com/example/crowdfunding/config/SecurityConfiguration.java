@@ -18,6 +18,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
     private UserRepository userRepository;
+    RestAuthEntryPoint restAuthEntryPoint;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -31,10 +32,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors();
 
         http
+            .authorizeRequests().antMatchers(HttpMethod.POST).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.PUT).authenticated().and()
-            .authorizeRequests().antMatchers(HttpMethod.DELETE).authenticated().and()
-            .authorizeRequests().antMatchers(HttpMethod.POST).permitAll();
+            .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll()
+            .and()
+                .authorizeRequests().antMatchers("/api/v1.0/users/newuser").permitAll()
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(restAuthEntryPoint)
+            .and()
+                .formLogin().loginProcessingUrl("/api/v1.0/users/{id}")
+            .and()
+                .logout();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

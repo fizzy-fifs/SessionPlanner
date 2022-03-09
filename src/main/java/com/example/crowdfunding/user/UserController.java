@@ -29,6 +29,7 @@ public class UserController implements ControllerInterface<User> {
     @GetMapping
     public List<User> getAll() { return userService.getAll(); }
 
+
     @Override
     @PutMapping (path = "/{userId}")
     public String update(@PathVariable("userId") String userId, @RequestBody User newUserInfo) {
