@@ -1,12 +1,15 @@
 package com.example.crowdfunding.adminsitrator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+@Data
 @Document(collection = "Administrators")
 public class Administrator {
 
@@ -19,6 +22,7 @@ public class Administrator {
     private String name;
 
     @NotBlank(message = "Email cannot be blank")
+    @Email(message = "Please enter a valid email address")
     @JsonProperty
     private String email;
 
