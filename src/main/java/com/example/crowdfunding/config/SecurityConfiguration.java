@@ -28,6 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.httpBasic();
+        http.cors();
 
         http
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
