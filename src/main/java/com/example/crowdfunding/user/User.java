@@ -22,7 +22,7 @@ public class User {
     @JsonProperty
     private String name;
 
-
+    @NotBlank(message = "User name cannot be blank")
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "User name can only contain letters, numbers and underscores")
     @JsonProperty
     private String userName;

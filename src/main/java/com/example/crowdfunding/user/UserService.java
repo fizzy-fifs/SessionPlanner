@@ -24,12 +24,22 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public String create(User user) {
-        if(emailExists(user)){ return "Email already exists"; }
+        if ( emailExists(user.getEmail()) ) { return "Email already exists"; }
 
         String encodedPassword = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.insert(user);
         return "User created successfully";
+    }
+
+    public User login(String email, String password) throws Exception {
+        if ( !emailExists(email) ) { throw new Exception("Email is not registered"); }
+
+        User user = userRepository.findByEmail(email);
+        if ( passwordEncoder.matches(password, user.getPassword()) ){
+            return user;
+        }
+        throw new Exception("Invalid password");
     }
 
     @Override
@@ -76,11 +86,8 @@ public class UserService implements ServiceInterface<User> {
         return "Your account has been deleted";
     }
 
-    private boolean emailExists(User user) {
-        User x = userRepository.findByEmail(user.getEmail());
-        return x == null ? false : true;
+    private boolean emailExists(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null ? true : false;
     }
-
-
-
 }

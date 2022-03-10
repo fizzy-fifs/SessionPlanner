@@ -25,6 +25,13 @@ public class UserController implements ControllerInterface<User> {
         return userService.create(user);
     }
 
+    @PostMapping(path = "/login")
+    public Object login(@RequestBody @Valid String email, String password, Errors errors) throws Exception {
+
+        if (errors.hasErrors()) { return errors.getAllErrors().get(0).getDefaultMessage(); }
+        return userService.login(email, password);
+    }
+
     @Override
     @GetMapping
     public List<User> getAll() { return userService.getAll(); }
