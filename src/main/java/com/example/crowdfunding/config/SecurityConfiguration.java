@@ -36,15 +36,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests().antMatchers(HttpMethod.POST).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.PUT).authenticated().and()
-            .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll();
+            .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll()
+            .and()
+                .formLogin().loginPage("/login").loginProcessingUrl("/api/v1.0/users/login");
+        ;
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/api/v1.0/users/newuser");
-        web.ignoring().antMatchers("/api/v1.0/users/login");
+//        web.ignoring().antMatchers("/api/v1.0/users/login");
         web.ignoring().antMatchers("/api/v1.0/users/{id}");
     }
 

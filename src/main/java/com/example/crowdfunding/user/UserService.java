@@ -3,13 +3,16 @@ package com.example.crowdfunding.user;
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashMap;
+import javax.security.auth.login.CredentialNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService implements ServiceInterface<User> {
@@ -33,14 +36,23 @@ public class UserService implements ServiceInterface<User> {
         return "User created successfully";
     }
 
-    public Object login(UserLoginObject emailAndPassword) {
-        if (!emailExists(emailAndPassword.getEmail())) { return "Email is not registered"; }
+    public ResponseEntity<Object> login(Map<String, String> emailAndPassword) throws CredentialNotFoundException {
+        var email = emailAndPassword.get("email");
+        var password = emailAndPassword.get("password");
 
-        User user = userRepository.findByEmail(emailAndPassword.getEmail());
-        if ( passwordEncoder.matches(emailAndPassword.getPassword(), user.getPassword()) ){
-            return user;
+        if (!emailExists(email)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Email is not registered");
         }
-        return "Invalid password";
+
+        User user = userRepository.findByEmail(email);
+
+        if ( passwordEncoder.matches(password, user.getPassword()) ){
+            return ResponseEntity.ok(user);
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Invalid password");
     }
 
     @Override

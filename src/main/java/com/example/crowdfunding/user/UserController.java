@@ -2,11 +2,13 @@ package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/v1.0/users")
@@ -26,9 +28,9 @@ public class UserController implements ControllerInterface<User> {
     }
 
     @PostMapping(path = "/login")
-    public Object login(@RequestBody @Valid UserLoginObject emailAndPassword, Errors errors) throws Exception {
+    public Object login(@RequestBody @Valid Map<String, String> emailAndPassword, Errors errors) throws Exception {
 
-        if (errors.hasErrors()) { return errors.getAllErrors().get(0).getDefaultMessage(); }
+        if (errors.hasErrors()) { return errors.getAllErrors(); }
         return userService.login(emailAndPassword);
     }
 
