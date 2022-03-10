@@ -26,10 +26,10 @@ public class UserController implements ControllerInterface<User> {
     }
 
     @PostMapping(path = "/login")
-    public Object login(@RequestBody @Valid String email, String password, Errors errors) throws Exception {
+    public Object login(@RequestBody @Valid UserLoginObject emailAndPassword, Errors errors) throws Exception {
 
         if (errors.hasErrors()) { return errors.getAllErrors().get(0).getDefaultMessage(); }
-        return userService.login(email, password);
+        return userService.login(emailAndPassword);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -32,11 +33,11 @@ public class UserService implements ServiceInterface<User> {
         return "User created successfully";
     }
 
-    public Object login(String email, String password) {
-        if ( !emailExists(email) ) { return "Email is not registered"; }
+    public Object login(UserLoginObject emailAndPassword) {
+        if (!emailExists(emailAndPassword.getEmail())) { return "Email is not registered"; }
 
-        User user = userRepository.findByEmail(email);
-        if ( passwordEncoder.matches(password, user.getPassword()) ){
+        User user = userRepository.findByEmail(emailAndPassword.getEmail());
+        if ( passwordEncoder.matches(emailAndPassword.getPassword(), user.getPassword()) ){
             return user;
         }
         return "Invalid password";
