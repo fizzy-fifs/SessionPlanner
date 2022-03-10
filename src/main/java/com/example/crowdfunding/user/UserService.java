@@ -32,14 +32,14 @@ public class UserService implements ServiceInterface<User> {
         return "User created successfully";
     }
 
-    public User login(String email, String password) throws Exception {
-        if ( !emailExists(email) ) { throw new Exception("Email is not registered"); }
+    public Object login(String email, String password) {
+        if ( !emailExists(email) ) { return "Email is not registered"; }
 
         User user = userRepository.findByEmail(email);
         if ( passwordEncoder.matches(password, user.getPassword()) ){
             return user;
         }
-        throw new Exception("Invalid password");
+        return "Invalid password";
     }
 
     @Override
