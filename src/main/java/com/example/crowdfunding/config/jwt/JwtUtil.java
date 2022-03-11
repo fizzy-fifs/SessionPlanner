@@ -5,8 +5,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +18,8 @@ import java.util.function.Function;
 
 public class JwtUtil {
 
-    private Algorithm secretKey = Algorithm.HMAC256("secret".getBytes());
+    @Value("${SECRET_KEY}")
+    private String secretKey;
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -43,18 +46,17 @@ public class JwtUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .setSigningKey((Key) secretKey)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody();
     }
 
     private String createToken(Map<String, Object> claims, UserDetails userDetails) {
 
-
         return Jwts.builder().setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt( new Date(System.currentTimeMillis()) )
                 .setExpiration( new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(30)) )
-                .signWith(SignatureAlgorithm.HS256, (Key) secretKey).compact();
+                .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
     private Boolean isTokenExpired(String token) {
