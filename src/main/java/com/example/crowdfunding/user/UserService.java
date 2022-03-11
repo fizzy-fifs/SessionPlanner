@@ -1,28 +1,46 @@
 package com.example.crowdfunding.user;
 
+import com.example.crowdfunding.config.MyUserDetailsService;
+import com.example.crowdfunding.config.jwt.JwtUtil;
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import javax.security.auth.login.CredentialNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class UserService implements ServiceInterface<User> {
 
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
+   @Autowired
+    private JwtUtil jwtTokenUtil;
+
+    @Autowired
+    public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, MyUserDetailsService myUserDetailsService, JwtUtil jwtTokenUtil, JwtUtil jwtTokenUtil1) {
         this.userRepository = userRepository;
+        this.jwtTokenUtil = jwtTokenUtil1;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -36,23 +54,41 @@ public class UserService implements ServiceInterface<User> {
         return "User created successfully";
     }
 
-    public ResponseEntity<Object> login(Map<String, String> emailAndPassword) throws CredentialNotFoundException {
+    public ResponseEntity<Map<String,Object>> login(Map<String, String> emailAndPassword) throws Exception {
         var email = emailAndPassword.get("email");
         var password = emailAndPassword.get("password");
 
-        if (!emailExists(email)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Email is not registered");
+        try {
+            authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(email, password))
+            ;
+        }catch(BadCredentialsException e) {
+            throw new Exception("Invalid email or password");
         }
+
+        final UserDetails userDetails = myUserDetailsService.loadUserByUsername(email);
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         User user = userRepository.findByEmail(email);
 
-        if ( passwordEncoder.matches(password, user.getPassword()) ){
-            return ResponseEntity.ok(user);
-        }
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("user", user);
+        responseData.put("jwt", jwt);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Invalid password");
+        return ResponseEntity.ok(responseData);
+
+
+
+//        if (!emailExists(email)) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body("Email is not registered");
+//        }
+
+//
+//
+//        if ( passwordEncoder.matches(password, user.getPassword()) ){
+//            return ResponseEntity.ok(user);
+//        }
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.example.crowdfunding.config;
 
+import com.example.crowdfunding.config.jwt.JwtUtil;
 import com.example.crowdfunding.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -30,15 +33,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.httpBasic();
-        http.cors();
+        http.cors().disable();
 
         http
             .authorizeRequests().antMatchers(HttpMethod.POST).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.PUT).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll()
-            .and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/api/v1.0/users/login");
+            .and().authorizeRequests().antMatchers("/api/v1.0/users/login").permitAll();
         ;
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
@@ -54,5 +56,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoderTest();
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

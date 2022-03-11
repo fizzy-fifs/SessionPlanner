@@ -2,6 +2,8 @@ package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +30,12 @@ public class UserController implements ControllerInterface<User> {
     }
 
     @PostMapping(path = "/login")
-    public Object login(@RequestBody @Valid Map<String, String> emailAndPassword, Errors errors) throws Exception {
+    public ResponseEntity login(@RequestBody @Valid Map<String, String> emailAndPassword, Errors errors) throws Exception {
 
-        if (errors.hasErrors()) { return errors.getAllErrors(); }
+        if (errors.hasErrors()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(errors.getAllErrors());
+        }
         return userService.login(emailAndPassword);
     }
 
