@@ -33,14 +33,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.httpBasic();
-        http.cors().disable();
+        http.cors();
 
         http
             .authorizeRequests().antMatchers(HttpMethod.POST).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.PUT).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll()
-            .and().authorizeRequests().antMatchers("/api/v1.0/users/login").permitAll();
+//            .and().authorizeRequests().antMatchers("/api/v1.0/users/login")
+//                .permitAll().anyRequest().authenticated();
         ;
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
@@ -49,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/api/v1.0/users/newuser");
-//        web.ignoring().antMatchers("/api/v1.0/users/login");
+        web.ignoring().antMatchers("/api/v1.0/users/login");
         web.ignoring().antMatchers("/api/v1.0/users/{id}");
     }
 
