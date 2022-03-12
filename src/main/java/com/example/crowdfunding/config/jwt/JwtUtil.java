@@ -14,8 +14,8 @@ import java.util.function.Function;
 
 public class JwtUtil {
 
-    @Value("${SECRET_KEY}")
-    private String secretKey = System.getenv("SECRET_KEY");
+//    @Value("${SECRET_KEY}")
+    private String secretKey = "Secret";
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();

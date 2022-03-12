@@ -98,4 +98,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         CorsFilter corsFilter = new CorsFilter();
         return corsFilter;
     }
+
+
 }

@@ -5,6 +5,7 @@ import com.example.crowdfunding.config.jwt.JwtUtil;
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -54,7 +55,7 @@ public class UserService implements ServiceInterface<User> {
         return "User created successfully";
     }
 
-    public ResponseEntity<Map<String,Object>> login(Map<String, String> emailAndPassword) throws Exception {
+    public ResponseEntity<Object> login(Map<String, String> emailAndPassword) throws Exception {
         var email = emailAndPassword.get("email");
         var password = emailAndPassword.get("password");
 
@@ -63,7 +64,7 @@ public class UserService implements ServiceInterface<User> {
                     .authenticate(new UsernamePasswordAuthenticationToken(email, password))
             ;
         }catch(BadCredentialsException e) {
-            throw new Exception("Invalid email or password");
+            return ResponseEntity.badRequest().body("Invalid email or password");
         }
 
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(email);
