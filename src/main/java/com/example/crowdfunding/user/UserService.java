@@ -3,6 +3,8 @@ package com.example.crowdfunding.user;
 import com.example.crowdfunding.config.MyUserDetailsService;
 import com.example.crowdfunding.config.jwt.JwtUtil;
 import com.example.crowdfunding.interfaces.ServiceInterface;
+import com.example.crowdfunding.user.role.Role;
+import com.example.crowdfunding.user.role.RoleRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,9 @@ public class UserService implements ServiceInterface<User> {
    @Autowired
     private JwtUtil jwtTokenUtil;
 
+   @Autowired
+    private RoleRepository roleRepository;
+
     @Autowired
     public UserService(UserRepository userRepository, AuthenticationManager authenticationManager, MyUserDetailsService myUserDetailsService, JwtUtil jwtTokenUtil, JwtUtil jwtTokenUtil1) {
         this.userRepository = userRepository;
@@ -46,13 +52,17 @@ public class UserService implements ServiceInterface<User> {
     }
 
     @Override
-    public String create(User user) {
-        if ( emailExists(user.getEmail()) ) { return "Email already exists"; }
+    public ResponseEntity<Object> create(User user) {
+        if ( emailExists(user.getEmail()) ) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
 
         String encodedPassword = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+
         userRepository.insert(user);
-        return "User created successfully";
+        return ResponseEntity.ok(user);
     }
 
     public ResponseEntity<Object> login(Map<String, String> emailAndPassword) throws Exception {

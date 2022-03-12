@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface ServiceInterface<T> {
-    String create(T entity);
+    ResponseEntity<Object> create(T entity);
 
     ResponseEntity<List<T>> getAll();
 

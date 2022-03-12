@@ -24,7 +24,7 @@ public class AdministratorController implements ControllerInterface<Administrato
 
     @Override
     @PostMapping(path = "/newadministrator")
-    public String create(Administrator administrator, Errors errors) {
+    public ResponseEntity<Object> create(Administrator administrator, Errors errors) {
         return administratorService.create(administrator);
     }
 

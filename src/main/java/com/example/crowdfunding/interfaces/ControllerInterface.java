@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ControllerInterface<T> {
 
-    String create(T entity, Errors errors);
+    ResponseEntity<Object> create(T entity, Errors errors);
 
     ResponseEntity<List<T>> getAll();
 

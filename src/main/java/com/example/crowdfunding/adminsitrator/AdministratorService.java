@@ -21,12 +21,12 @@ public class AdministratorService implements ServiceInterface<Administrator> {
     }
 
     @Override
-    public String create(Administrator administrator) {
+    public ResponseEntity<Object> create(Administrator administrator) {
         String encodedPassword = this.passwordEncoder.encode(administrator.getPassword());
         administrator.setPassword(encodedPassword);
 
         administratorRepository.insert(administrator);
-        return "Administrator created succesfully";
+        return ResponseEntity.ok(administrator);
     }
 
     @Override

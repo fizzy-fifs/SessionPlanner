@@ -17,9 +17,9 @@ public class ProjectService implements ServiceInterface<Project> {
     }
 
     @Override
-    public String create(Project project) {
+    public ResponseEntity<Object> create(Project project) {
         projectRepository.insert(project);
-        return "Project has been successfully created";
+        return ResponseEntity.ok(project);
     }
 
     @Override

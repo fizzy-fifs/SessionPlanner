@@ -20,9 +20,12 @@ public class ProjectController implements ControllerInterface<Project>{
 
     @Override
     @PostMapping(path = "/newproject")
-    public String create(@RequestBody @Valid Project project, Errors errors) {
+    public ResponseEntity<Object> create(@RequestBody @Valid Project project, Errors errors) {
 
-        if (errors.hasErrors()) { return errors.getAllErrors().get(0).getDefaultMessage(); }
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest()
+                    .body(errors.getAllErrors().get(0).getDefaultMessage());
+        }
         return projectService.create(project);
     }
 
