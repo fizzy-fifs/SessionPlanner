@@ -3,7 +3,6 @@ package com.example.crowdfunding.project;
 import com.example.crowdfunding.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
