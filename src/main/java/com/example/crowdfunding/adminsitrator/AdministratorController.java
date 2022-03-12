@@ -2,6 +2,7 @@ package com.example.crowdfunding.adminsitrator;
 
 import com.example.crowdfunding.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,7 @@ public class AdministratorController implements ControllerInterface<Administrato
 
     @Override
     @GetMapping
-    public List<Administrator> getAll() {
+    public ResponseEntity<List<Administrator>> getAll() {
         return administratorService.getAll();
     }
 

@@ -2,6 +2,7 @@ package com.example.crowdfunding.adminsitrator;
 
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,10 @@ public class AdministratorService implements ServiceInterface<Administrator> {
     }
 
     @Override
-    public List<Administrator> getAll() { return administratorRepository.findAll(); }
+    public ResponseEntity<List<Administrator>> getAll() {
+        List<Administrator> allAdmin = administratorRepository.findAll();
+        return ResponseEntity.ok(allAdmin);
+    }
 
     @Override
     public String update(String entityId, Administrator newEntityInfo) {

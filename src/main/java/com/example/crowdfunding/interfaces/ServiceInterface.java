@@ -1,12 +1,14 @@
 package com.example.crowdfunding.interfaces;
 
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface ServiceInterface<T> {
     String create(T entity);
 
-    List<T> getAll();
+    ResponseEntity<List<T>> getAll();
 
     String update(String entityId, T newEntityInfo);
 

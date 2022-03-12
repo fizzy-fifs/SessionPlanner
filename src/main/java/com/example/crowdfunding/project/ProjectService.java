@@ -2,6 +2,7 @@ package com.example.crowdfunding.project;
 
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,10 @@ public class ProjectService implements ServiceInterface<Project> {
     }
 
     @Override
-    public List<Project> getAll() { return projectRepository.findAll(); }
+    public ResponseEntity<List<Project>> getAll() {
+        List<Project> allProjects = projectRepository.findAll();
+        return ResponseEntity.ok(allProjects);
+    }
 
     @Override
     public String update(String entityId, Project newEntityInfo) {

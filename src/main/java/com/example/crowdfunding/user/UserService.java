@@ -76,23 +76,13 @@ public class UserService implements ServiceInterface<User> {
         responseData.put("jwt", jwt);
 
         return ResponseEntity.ok(responseData);
-
-
-
-//        if (!emailExists(email)) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body("Email is not registered");
-//        }
-
-//
-//
-//        if ( passwordEncoder.matches(password, user.getPassword()) ){
-//            return ResponseEntity.ok(user);
-//        }
     }
 
     @Override
-    public List<User> getAll() { return userRepository.findAll(); }
+    public ResponseEntity<List<User>> getAll() {
+        List<User> allUsers =  userRepository.findAll();
+        return ResponseEntity.ok(allUsers);
+    }
 
     public User getUserById(String userId) throws Exception {
         ObjectId userIdToObjectId = new ObjectId(userId);
