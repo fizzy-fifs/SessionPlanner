@@ -18,8 +18,6 @@ import java.util.List;
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    boolean alreadySetup = false;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -36,8 +34,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if (alreadySetup)
-            return;
+        if (isAlreadySetup()) { return; }
+
         Privilege readPrivilege
                 = createPrivilegeIfNotFound("READ_PRIVILEGE");
         Privilege writePrivilege
@@ -55,8 +53,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         user.setRoles(Arrays.asList(adminRole));
         user.setEnabled(true);
         userRepository.save(user);
-
-        alreadySetup = true;
     }
 
     @Transactional
@@ -80,5 +76,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             roleRepository.save(role);
         }
         return role;
+    }
+
+    private boolean isAlreadySetup() {
+        var adminRole = roleRepository.findByName("ROLE_ADMIN");
+        var userRole = roleRepository.findByName("ROLE_USER");
+       return adminRole != null || userRole != null;
     }
 }
