@@ -46,12 +46,19 @@ public class User {
     @JsonProperty
     private String password;
 
+    @JsonProperty
+    private String image;
+
+    @JsonProperty
     private Collection<Role> roles;
 
+    @JsonProperty
     private Business business;
 
+    @JsonProperty
     private boolean enabled;
 
+    @JsonProperty
     private boolean tokenExpired;
 
     public User() {}

@@ -1,6 +1,7 @@
 package com.example.crowdfunding;
 
 import com.cloudinary.Cloudinary;
+import com.example.crowdfunding.cloudinary.CloudinaryService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,5 +24,10 @@ public class crowdfundingApplication {
 		config.put("api_secret", System.getenv("api_secret"));
 		Cloudinary cloudinary = new Cloudinary(config);
 		return cloudinary;
+	}
+
+	@Bean
+	public CloudinaryService cloudinaryService() {
+		return new CloudinaryService(){};
 	}
 }
