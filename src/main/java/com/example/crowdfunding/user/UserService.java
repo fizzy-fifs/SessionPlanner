@@ -8,6 +8,7 @@ import com.example.crowdfunding.user.role.RoleRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -53,16 +54,29 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public ResponseEntity<Object> create(User user) {
+        // Check is email is already registered
         if ( emailExists(user.getEmail()) ) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            return new ResponseEntity("Email already exists", HttpStatus.UNAUTHORIZED);
         }
 
-        String encodedPassword = this.passwordEncoder.encode(user.getPassword());
+        //Hash password and set role as user
+        var bcrypt = new BCryptPasswordEncoder();
+        String encodedPassword = bcrypt.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
         userRepository.insert(user);
-        return ResponseEntity.ok(user);
+
+        //Generate JWT
+        final UserDetails userDetails = myUserDetailsService.loadUserByUsername(user.getEmail());
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+        // Put JWT and user object in a map and send response
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("user", user);
+        responseData.put("jwt", jwt);
+
+        return new ResponseEntity(responseData, HttpStatus.OK);
     }
 
     public ResponseEntity<Object> login(Map<String, String> emailAndPassword) throws Exception {

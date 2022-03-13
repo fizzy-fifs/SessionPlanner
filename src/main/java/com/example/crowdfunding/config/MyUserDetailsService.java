@@ -29,12 +29,7 @@ public class MyUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Username not found");
 
-        } else  {
-            grantedAuthorities = new HashSet<>();
         }
-//        else {
-//            throw new UsernameNotFoundException("Unauthorised user");
-//        }
 
         return new org
                 .springframework

@@ -54,8 +54,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().authorizeRequests().antMatchers("/api/v1.0/users/login")
-                .permitAll().anyRequest().authenticated();
+            .and()
+                .authorizeRequests().antMatchers("/api/v1.0/users/login").authenticated()
+//            .and()
+//                .authorizeRequests().antMatchers("/swagger-ui/**}")
+//                .permitAll().anyRequest().authenticated();
         ;
 
         http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
@@ -67,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/api/v1.0/users/newuser");
-        web.ignoring().antMatchers("/api/v1.0/users/login");
+//        web.ignoring().antMatchers("/api/v1.0/users/login");
         web.ignoring().antMatchers("/api/v1.0/users/{id}");
         web.ignoring().antMatchers("/swagger-ui/**}");
     }
