@@ -1,5 +1,6 @@
 package com.example.crowdfunding.user;
 
+import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -46,6 +47,8 @@ public class User {
     private String password;
 
     private Collection<Role> roles;
+
+    private Business business;
 
     private boolean enabled;
 

@@ -1,7 +1,7 @@
 package com.example.crowdfunding.project;
 
+import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.project.enums.Category;
-import com.example.crowdfunding.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -40,9 +40,9 @@ public class Project {
 
     @Valid
     @JsonProperty
-    private User projectOwner;
+    private Business projectOwner;
 
-    public Project(String name, String description, Category category, BigDecimal goal, User projectOwner) {
+    public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner) {
         this.name = name;
         this.description = description;
         this.category = category;
