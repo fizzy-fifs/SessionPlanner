@@ -49,20 +49,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests().antMatchers(HttpMethod.POST).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.GET).authenticated().and()
             .authorizeRequests().antMatchers(HttpMethod.PUT).authenticated().and()
-            .authorizeRequests().antMatchers(HttpMethod.DELETE).permitAll()
-            .and()
+            .authorizeRequests().antMatchers(HttpMethod.DELETE).authenticated().and()
                 .exceptionHandling()
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
                 .authorizeRequests().antMatchers("/api/v1.0/users/login").authenticated()
-//            .and()
-//                .authorizeRequests().antMatchers("/swagger-ui/**}")
-//                .permitAll().anyRequest().authenticated();
         ;
 
-        http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
+
     }
 
 
@@ -89,7 +86,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
