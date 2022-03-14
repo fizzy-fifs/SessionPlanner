@@ -18,8 +18,8 @@ public class ProjectService implements ServiceInterface<Project> {
 
     @Override
     public ResponseEntity<Object> create(Project project) {
-        projectRepository.insert(project);
-        return ResponseEntity.ok(project);
+        Project savedProject = projectRepository.insert(project);
+        return ResponseEntity.ok(savedProject);
     }
 
     @Override
