@@ -26,13 +26,13 @@ public class Business {
     @JsonProperty
     private String name;
 
-    private String description;
-
-    private ArrayList<String> images;
-
     @NotBlank(message = "Owners  cannot be blank")
     @JsonProperty
     private ArrayList<User> owners;
+
+    private String description;
+
+    private ArrayList<String> images;
 
     private BankAccount bankAccount;
 
