@@ -44,4 +44,8 @@ public class Business {
         this.owner = owner;
         this.bankAccount = bankAccount;
     }
+
+    public void addToListedProjects(Project project) {
+        listedProjects.add(project);
+    }
 }
