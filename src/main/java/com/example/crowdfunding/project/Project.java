@@ -25,34 +25,44 @@ public class Project {
 
     @NotBlank(message = "Name cannot be blank")
     @JsonProperty
-    private String name;
+    private String title;
+
+    @JsonProperty
+    @NotBlank(message = "Please select a category")
+    private Category category;
 
     @NotBlank(message = "Description cannot be blank")
     @JsonProperty
     private String description;
 
-    @JsonProperty
-    private Category category;
-
-    private BigDecimal raised;
-
     @DecimalMin(value ="0.00", inclusive = false)
     @Digits(integer = 7, fraction = 2)
+    @NotBlank(message = "Please specify the amount of money you intend to raise")
     @JsonProperty
     private BigDecimal goal;
 
+    @JsonProperty
+    @NotBlank(message = "End date cannot be blank")
+    public LocalDate endDate;
+
+    @JsonProperty
+    private BigDecimal amountRaised;
+
+    @JsonProperty
     public LocalDate daysLeft;
 
     @Valid
+    @NotBlank(message = "Please attach the relevant business")
     @JsonProperty
     private Business projectOwner;
 
-    public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner) {
-        this.name = name;
+    public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner, LocalDate endDate) {
+        this.title = name;
         this.description = description;
         this.category = category;
         this.goal = goal;
         this.projectOwner = projectOwner;
+        this.endDate = endDate;
     }
 
 

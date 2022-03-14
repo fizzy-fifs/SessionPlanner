@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
@@ -53,7 +54,7 @@ public class User {
     private Collection<Role> roles;
 
     @JsonProperty
-    private Business business;
+    private ArrayList<Business> businesses;
 
     @JsonProperty
     private boolean enabled;

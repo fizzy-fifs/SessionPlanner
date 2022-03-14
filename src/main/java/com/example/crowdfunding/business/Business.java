@@ -28,7 +28,7 @@ public class Business {
 
     @NotBlank(message = "Owners  cannot be blank")
     @JsonProperty
-    private ArrayList<User> owners;
+    private User owner;
 
     private String description;
 
@@ -39,9 +39,9 @@ public class Business {
     @JsonProperty
     private ArrayList<Project> listedProjects;
 
-    public Business(String name, ArrayList<User> owners, BankAccount bankAccount) {
+    public Business(String name, User owner, BankAccount bankAccount) {
         this.name = name;
-        this.owners = owners;
+        this.owner = owner;
         this.bankAccount = bankAccount;
     }
 }
