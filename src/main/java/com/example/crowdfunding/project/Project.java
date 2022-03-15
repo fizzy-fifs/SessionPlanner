@@ -14,6 +14,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Data
 @Document(collection = "Projects")
@@ -46,6 +47,10 @@ public class Project {
     public LocalDate endDate;
 
     @JsonProperty
+    @NotBlank(message = "images cannot be blank")
+    public ArrayList<String> images;
+
+    @JsonProperty
     private BigDecimal amountRaised;
 
     @JsonProperty
@@ -56,13 +61,14 @@ public class Project {
     @JsonProperty
     private Business projectOwner;
 
-    public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner, LocalDate endDate) {
+    public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner, LocalDate endDate, ArrayList<String> images) {
         this.title = name;
         this.description = description;
         this.category = category;
         this.goal = goal;
         this.projectOwner = projectOwner;
         this.endDate = endDate;
+        this.images = images;
     }
 
 
