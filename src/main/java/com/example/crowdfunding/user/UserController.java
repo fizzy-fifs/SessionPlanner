@@ -1,7 +1,7 @@
 package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.cloudinary.CloudinaryService;
-import com.example.crowdfunding.interfaces.ControllerInterface;
+import com.example.crowdfunding.interfaces.AbstractController;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/v1.0/users")
-public class UserController implements ControllerInterface<User> {
+public class UserController extends AbstractController<User> {
 
     @Autowired
     private final UserService userService;
@@ -30,7 +30,7 @@ public class UserController implements ControllerInterface<User> {
     @Autowired
     public UserController(UserService userService, CloudinaryService cloudinaryService) { this.userService = userService; }
 
-    @Override
+
     @PostMapping(path = "/newuser")
     public ResponseEntity<Object> create(@RequestBody @Valid User user, Errors errors) {
 
@@ -52,7 +52,7 @@ public class UserController implements ControllerInterface<User> {
         return userService.login(emailAndPassword);
     }
 
-    @Override
+
     @GetMapping
     public ResponseEntity<List<User>> getAll() { return userService.getAll(); }
 
@@ -62,7 +62,7 @@ public class UserController implements ControllerInterface<User> {
     }
 
     @PostMapping(path = "/uploadprofilepicture")
-    public ResponseEntity uploadProfilePicture(@RequestBody MultipartFile image, String userId) {
+    public ResponseEntity uploadProfilePicture(@RequestPart MultipartFile image, @RequestParam String userId) {
         ObjectId userIdToObjectId = new ObjectId(userId);
         User user = userRepository.findById(userIdToObjectId);
 
@@ -75,13 +75,13 @@ public class UserController implements ControllerInterface<User> {
          return new ResponseEntity(updatedUser.getImage(), HttpStatus.OK);
     }
 
-    @Override
+
     @PutMapping (path = "/{userId}")
     public String update(@PathVariable("userId") String userId, @RequestBody User newUserInfo) {
         return userService.update(userId, newUserInfo);
     }
 
-    @Override
+
     @DeleteMapping(path = "/{userId}")
     public String delete(@PathVariable("userId") String userId) {
         return userService.delete(userId);

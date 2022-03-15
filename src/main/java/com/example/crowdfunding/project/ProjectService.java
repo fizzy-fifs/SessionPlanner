@@ -3,7 +3,6 @@ package com.example.crowdfunding.project;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.interfaces.ServiceInterface;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,15 +24,12 @@ public class ProjectService implements ServiceInterface<Project> {
     }
 
     @Override
-    public ResponseEntity<Object> create(Project project, String businessId) {
-        //Find related business
-        ObjectId businessIdToObjectID = new ObjectId(businessId);
-        Business business = businessRepository.findById(businessIdToObjectID);
-
+    public ResponseEntity<Object> create(Project project) {
         //Save project to db
         Project savedProject = projectRepository.insert(project);
 
         //Add projects  to related business and save to db
+        Business business = savedProject.getProjectOwner();
         business.addToListedProjects(savedProject);
         businessRepository.save(business);
 

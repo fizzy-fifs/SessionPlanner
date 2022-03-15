@@ -1,6 +1,6 @@
 package com.example.crowdfunding.adminsitrator;
 
-import com.example.crowdfunding.interfaces.ControllerInterface;
+import com.example.crowdfunding.interfaces.AbstractController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1.0/administrators")
-public class AdministratorController implements ControllerInterface<Administrator> {
+public class AdministratorController extends AbstractController<Administrator> {
 
     private final AdministratorService administratorService;
 
@@ -22,24 +22,20 @@ public class AdministratorController implements ControllerInterface<Administrato
         this.administratorService = administratorService;
     }
 
-    @Override
     @PostMapping(path = "/newadministrator")
     public ResponseEntity<Object> create(Administrator administrator, Errors errors) {
         return administratorService.create(administrator);
     }
 
-    @Override
     @GetMapping
     public ResponseEntity<List<Administrator>> getAll() {
         return administratorService.getAll();
     }
 
-    @Override
     public String update(String id, Administrator newInfo) {
         return null;
     }
 
-    @Override
     public String delete(String id) {
         return null;
     }
