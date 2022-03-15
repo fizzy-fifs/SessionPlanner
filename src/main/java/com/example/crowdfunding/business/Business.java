@@ -45,6 +45,13 @@ public class Business {
     @JsonProperty
     private ArrayList<Project> listedProjects;
 
+    public Business(String name, User owner, String description, BankAccount bankAccount) {
+        this.name = name;
+        this.owner = owner;
+        this.description = description;
+        this.bankAccount = bankAccount;
+    }
+
     public Business(String name, User owner, String description, ArrayList<String> images, BankAccount bankAccount) {
         this.name = name;
         this.owner = owner;

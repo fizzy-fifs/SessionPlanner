@@ -25,7 +25,7 @@ public class BusinessController extends AbstractController<Business> {
     private CloudinaryService cloudinaryService;
 
     @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create(@RequestBody @Valid Business business, @RequestPart ArrayList<MultipartFile> images, Errors errors)  {
+    public ResponseEntity<Object> create(@RequestBody @Valid Business business, @RequestParam(value = "images", required = false) ArrayList<MultipartFile> images, Errors errors)  {
 
         if (errors.hasErrors()) {  return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST); }
 
