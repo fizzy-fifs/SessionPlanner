@@ -30,18 +30,26 @@ public class Business {
     @JsonProperty
     private User owner;
 
+    @NotBlank(message = "Description  cannot be blank")
+    @JsonProperty
     private String description;
 
+    @NotBlank(message = "Images  cannot be blank")
+    @JsonProperty
     private ArrayList<String> images;
 
+    @NotBlank(message = "Bank Account  cannot be blank")
+    @JsonProperty
     private BankAccount bankAccount;
 
     @JsonProperty
     private ArrayList<Project> listedProjects;
 
-    public Business(String name, User owner, BankAccount bankAccount) {
+    public Business(String name, User owner, String description, ArrayList<String> images, BankAccount bankAccount) {
         this.name = name;
         this.owner = owner;
+        this.description = description;
+        this.images = images;
         this.bankAccount = bankAccount;
     }
 
