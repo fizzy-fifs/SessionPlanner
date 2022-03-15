@@ -2,6 +2,9 @@ package com.example.crowdfunding.business;
 
 import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
+import com.example.crowdfunding.user.User;
+import com.example.crowdfunding.user.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,10 +27,15 @@ public class BusinessController extends AbstractController<Business> {
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create(@RequestBody @Valid Business business, @RequestParam(value = "images", required = false) ArrayList<MultipartFile> images, Errors errors)  {
+    @Autowired
+    private UserRepository userRepository;
 
-        if (errors.hasErrors()) {  return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST); }
+    @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Object> create( @RequestParam(name = "name") @Valid String name,
+                                          @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
+                                          @RequestParam(name = "images")ArrayList<MultipartFile> images)  {
+        //Get associated user
+        User user = userRepository.findById(new ObjectId(userId));
 
         //Upload images and retrieve their corresponding urls
         ArrayList<String> imageUrls = new ArrayList<>();
@@ -35,6 +43,12 @@ public class BusinessController extends AbstractController<Business> {
             String eachUrl = cloudinaryService.uploadFile(eachImage);
             imageUrls.add(eachUrl);
         }
+
+        // Create and set new business parameters
+        Business business = new Business();
+        business.setName(name);
+        business.setOwner(user);
+        business.setDescription(description);
         business.setImages(imageUrls);
 
         return businessService.create(business);

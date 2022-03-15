@@ -2,6 +2,8 @@ package com.example.crowdfunding;
 
 import com.cloudinary.Cloudinary;
 import com.example.crowdfunding.cloudinary.CloudinaryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,5 +31,10 @@ public class crowdfundingApplication {
 	@Bean
 	public CloudinaryService cloudinaryService() {
 		return new CloudinaryService(){};
+	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 	}
 }

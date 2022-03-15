@@ -2,6 +2,7 @@ package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class UserController extends AbstractController<User> {
 
 
     @PostMapping(path = "/newuser")
-    public ResponseEntity<Object> create(@RequestBody @Valid User user, Errors errors) {
+    public ResponseEntity<Object> create(@RequestBody @Valid User user, Errors errors) throws JsonProcessingException {
 
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest()

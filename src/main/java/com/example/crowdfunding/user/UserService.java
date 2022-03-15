@@ -5,6 +5,8 @@ import com.example.crowdfunding.config.jwt.JwtUtil;
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import com.example.crowdfunding.user.role.Role;
 import com.example.crowdfunding.user.role.RoleRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -53,7 +55,7 @@ public class UserService implements ServiceInterface<User> {
     }
 
     @Override
-    public ResponseEntity<Object> create(User user) {
+    public ResponseEntity<Object> create(User user) throws JsonProcessingException {
         // Check is email is already registered
         if ( emailExists(user.getEmail()) ) {
             return new ResponseEntity("Email already exists", HttpStatus.UNAUTHORIZED);
@@ -65,7 +67,7 @@ public class UserService implements ServiceInterface<User> {
         user.setPassword(encodedPassword);
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-        userRepository.insert(user);
+        User savedUser = userRepository.insert(user);
 
         //Generate JWT
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(user.getEmail());
@@ -73,7 +75,11 @@ public class UserService implements ServiceInterface<User> {
 
         // Put JWT and user object in a map and send response
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("user", user);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String userJson = mapper.writeValueAsString(savedUser);
+
+        responseData.put("user", userJson);
         responseData.put("jwt", jwt);
 
         return new ResponseEntity(responseData, HttpStatus.OK);
@@ -96,8 +102,11 @@ public class UserService implements ServiceInterface<User> {
 
         User user = userRepository.findByEmail(email);
 
+        ObjectMapper mapper = new ObjectMapper();
+        String userJson = mapper.writeValueAsString(user);
+
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("user", user);
+        responseData.put("user", userJson);
         responseData.put("jwt", jwt);
 
         return ResponseEntity.ok(responseData);

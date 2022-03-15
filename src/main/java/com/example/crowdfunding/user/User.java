@@ -64,6 +64,15 @@ public class User {
 
     public User() {}
 
+    public User(String id, String name, String userName, LocalDate dob, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.userName = userName;
+        this.dob = dob;
+        this.email = email;
+        this.password = password;
+    }
+
     public User(String name, String userName, LocalDate dob, String email, String password) {
         this.name = name;
         this.userName = userName;
