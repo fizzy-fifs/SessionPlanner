@@ -3,6 +3,8 @@ package com.example.crowdfunding.project;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.interfaces.ServiceInterface;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class ProjectService implements ServiceInterface<Project> {
     }
 
     @Override
-    public ResponseEntity<Object> create(Project project) {
+    public ResponseEntity<Object> create(Project project) throws JsonProcessingException {
         //Save project to db
         Project savedProject = projectRepository.insert(project);
 
@@ -33,7 +35,10 @@ public class ProjectService implements ServiceInterface<Project> {
         business.addToListedProjects(savedProject);
         businessRepository.save(business);
 
-        return ResponseEntity.ok(savedProject);
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        String projectJson = mapper.writeValueAsString(savedProject);
+
+        return ResponseEntity.ok(projectJson);
     }
 
     @Override

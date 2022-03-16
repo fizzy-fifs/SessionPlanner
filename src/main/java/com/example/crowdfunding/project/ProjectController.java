@@ -4,6 +4,8 @@ import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
+import com.example.crowdfunding.project.enums.Category;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +38,10 @@ public class ProjectController extends AbstractController<Project> {
 
 
     @PostMapping(path = "/newproject", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create(@RequestPart @Valid Project project, Errors errors,
-                         @RequestPart(name = "businessId") String businessId, @RequestPart ArrayList<MultipartFile> images ) {
-
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest()
-                    .body(errors.getAllErrors().get(0).getDefaultMessage());
-        }
+    public ResponseEntity<Object> create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
+                                         @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
+                                         @RequestParam(name = "endDate") String endDate, @RequestParam(name = "businessId") String businessId,
+                                         @RequestParam(name = "images")ArrayList<MultipartFile> images) throws JsonProcessingException {
 
         //Upload images and retrieve their corresponding urls
         ArrayList<String> imageUrls = new ArrayList<>();
@@ -48,13 +49,26 @@ public class ProjectController extends AbstractController<Project> {
             String eachImageUrl = cloudinaryService.uploadFile(eachImage);
             imageUrls.add(eachImageUrl);
         }
+        // Get associated business
+        Business business = businessRepository.findById(new ObjectId(businessId));
 
+        //Set category
+        try {
+            Category.valueOf(category);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Invalid category: " + category);
+        }
+
+        //Create new project and set properties
+        Project project = new Project();
+        project.setTitle(title);
+        project.setCategory(Category.valueOf(category));
+        project.setDescription(description);
+        project.setGoal(BigDecimal.valueOf(goal));
+        project.setEndDate(LocalDate.parse(endDate));
+        project.setProjectOwner(business);
         project.setImages(imageUrls);
 
-        ObjectId businessIdToObjectID = new ObjectId(businessId);
-        Business business = businessRepository.findById(businessIdToObjectID);
-
-        project.setProjectOwner(business);
         return projectService.create(project);
     }
 

@@ -61,6 +61,18 @@ public class Project {
     @JsonProperty
     private Business projectOwner;
 
+    public Project() {
+    }
+
+    public Project(String title, Category category, String description, BigDecimal goal, LocalDate endDate, ArrayList<String> images) {
+        this.title = title;
+        this.category = category;
+        this.description = description;
+        this.goal = goal;
+        this.endDate = endDate;
+        this.images = images;
+    }
+
     public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner, LocalDate endDate, ArrayList<String> images) {
         this.title = name;
         this.description = description;

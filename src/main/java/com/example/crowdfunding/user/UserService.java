@@ -3,13 +3,11 @@ package com.example.crowdfunding.user;
 import com.example.crowdfunding.config.MyUserDetailsService;
 import com.example.crowdfunding.config.jwt.JwtUtil;
 import com.example.crowdfunding.interfaces.ServiceInterface;
-import com.example.crowdfunding.user.role.Role;
 import com.example.crowdfunding.user.role.RoleRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -118,16 +116,15 @@ public class UserService implements ServiceInterface<User> {
         return ResponseEntity.ok(allUsers);
     }
 
-    public User getUserById(String userId) throws Exception {
-        ObjectId userIdToObjectId = new ObjectId(userId);
+    public ResponseEntity<String> getUserById(String userId) throws Exception {
+        User user = userRepository.findById(new ObjectId(userId));
 
-        User user = userRepository.findById(userIdToObjectId);
+        if (user == null) { return ResponseEntity.badRequest().body("User does not exist"); }
 
-        if (user == null) {
-            throw new Exception("User does not exist");
-        }
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        String userJson = mapper.writeValueAsString(user);
 
-        return user;
+        return ResponseEntity.ok().body(userJson);
     }
     @Override
     public String update(String userId, User newUserInfo) {

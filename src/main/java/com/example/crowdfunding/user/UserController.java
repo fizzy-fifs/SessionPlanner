@@ -58,7 +58,7 @@ public class UserController extends AbstractController<User> {
     public ResponseEntity<List<User>> getAll() { return userService.getAll(); }
 
     @GetMapping(path = "/{userId}")
-    public User getUserById(@PathVariable("userId") String userId) throws Exception {
+    public ResponseEntity<String> getUserById(@PathVariable("userId") String userId) throws Exception {
         return userService.getUserById(userId);
     }
 
