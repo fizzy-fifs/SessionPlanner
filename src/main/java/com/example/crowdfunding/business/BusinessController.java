@@ -4,6 +4,7 @@ import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
 import com.example.crowdfunding.user.User;
 import com.example.crowdfunding.user.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class BusinessController extends AbstractController<Business> {
     @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Object> create( @RequestParam(name = "name") @Valid String name,
                                           @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
-                                          @RequestParam(name = "images")ArrayList<MultipartFile> images)  {
+                                          @RequestParam(name = "images")ArrayList<MultipartFile> images) throws JsonProcessingException {
         //Get associated user
         User user = userRepository.findById(new ObjectId(userId));
 
