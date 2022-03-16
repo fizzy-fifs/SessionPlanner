@@ -2,13 +2,22 @@ package com.example.crowdfunding;
 
 import com.cloudinary.Cloudinary;
 import com.example.crowdfunding.cloudinary.CloudinaryService;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,8 +44,23 @@ public class crowdfundingApplication {
 		return new CloudinaryService(){};
 	}
 
+//	@Bean
+//	public ObjectMapper objectMapper() {
+//		return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+//	}
+
 	@Bean
+	@Primary
 	public ObjectMapper objectMapper() {
-		return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		JavaTimeModule module = new JavaTimeModule();
+		module.addSerializer(LocalDate.class, new JsonSerializer<LocalDate>() {
+			@Override
+			public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+
+			}
+		});
+		return new ObjectMapper()
+				.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+				.registerModule(module);
 	}
 }
