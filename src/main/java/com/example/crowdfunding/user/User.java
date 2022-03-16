@@ -80,4 +80,8 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public void addToListOfBusinesses(Business business){
+        businesses.add(business);
+    }
 }
