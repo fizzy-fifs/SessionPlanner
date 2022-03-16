@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "/api/v1.0/administrators")
 public class AdministratorController extends AbstractController<Administrator> {
@@ -28,7 +26,7 @@ public class AdministratorController extends AbstractController<Administrator> {
     }
 
     @GetMapping
-    public ResponseEntity<List<Administrator>> getAll() {
+    public ResponseEntity<Object> getAll() {
         return administratorService.getAll();
     }
 

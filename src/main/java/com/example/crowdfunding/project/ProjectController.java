@@ -74,7 +74,7 @@ public class ProjectController extends AbstractController<Project> {
     }
 
     @GetMapping
-    public ResponseEntity<List<Project>> getAll() { return projectService.getAll(); }
+    public ResponseEntity<Object> getAll() throws JsonProcessingException { return projectService.getAll(); }
 
     public String update(String id, Project newInfo) {
         return null;

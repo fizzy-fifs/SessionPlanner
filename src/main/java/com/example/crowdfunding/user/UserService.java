@@ -111,7 +111,7 @@ public class UserService implements ServiceInterface<User> {
     }
 
     @Override
-    public ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<Object> getAll() {
         List<User> allUsers =  userRepository.findAll();
         return ResponseEntity.ok(allUsers);
     }

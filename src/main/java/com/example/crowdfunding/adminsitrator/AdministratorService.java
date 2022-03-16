@@ -34,7 +34,7 @@ public class AdministratorService implements ServiceInterface<Administrator> {
     }
 
     @Override
-    public ResponseEntity<List<Administrator>> getAll() {
+    public ResponseEntity<Object> getAll() {
         List<Administrator> allAdmin = administratorRepository.findAll();
         return ResponseEntity.ok(allAdmin);
     }

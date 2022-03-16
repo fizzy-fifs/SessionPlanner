@@ -7,16 +7,13 @@ import com.example.crowdfunding.user.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1.0/businesses")
@@ -56,7 +53,7 @@ public class BusinessController extends AbstractController<Business> {
     }
 
     @GetMapping
-    public ResponseEntity<List<Business>> getAll() throws JsonProcessingException { return businessService.getAll(); }
+    public ResponseEntity<Object> getAll() throws JsonProcessingException { return businessService.getAll(); }
 
 //    @GetMapping(path = "/getbusinessesbyuserid/{userId}")
 //    public ResponseEntity<List<Business>> getBusinessByUserId(@PathVariable("userId") String userId) throws JsonProcessingException {

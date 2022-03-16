@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,7 +42,7 @@ public class BusinessService implements ServiceInterface<Business> {
     }
 
     @Override
-    public ResponseEntity<List<Business>> getAll() throws JsonProcessingException {
+    public ResponseEntity<Object> getAll() throws JsonProcessingException {
         List<Business> allBusinesses = businessRepository.findAll();
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String allBusinessesJson = mapper.writeValueAsString(allBusinesses);

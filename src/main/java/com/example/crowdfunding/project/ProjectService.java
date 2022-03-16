@@ -42,9 +42,13 @@ public class ProjectService implements ServiceInterface<Project> {
     }
 
     @Override
-    public ResponseEntity<List<Project>> getAll() {
+    public ResponseEntity<Object> getAll() throws JsonProcessingException {
         List<Project> allProjects = projectRepository.findAll();
-        return ResponseEntity.ok(allProjects);
+
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        String allProjectsJson = mapper.writeValueAsString(allProjects);
+
+        return ResponseEntity.ok(allProjectsJson);
     }
 
     @Override

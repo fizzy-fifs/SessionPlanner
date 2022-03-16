@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -55,7 +54,7 @@ public class UserController extends AbstractController<User> {
 
 
     @GetMapping
-    public ResponseEntity<List<User>> getAll() { return userService.getAll(); }
+    public ResponseEntity<Object> getAll() { return userService.getAll(); }
 
     @GetMapping(path = "/{userId}")
     public ResponseEntity<String> getUserById(@PathVariable("userId") String userId) throws Exception {
