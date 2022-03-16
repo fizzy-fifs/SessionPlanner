@@ -54,7 +54,7 @@ public class User {
     private Collection<Role> roles;
 
     @JsonProperty
-    private ArrayList<Business> businesses;
+    private ArrayList<Business> businesses ;
 
     @JsonProperty
     private boolean enabled;
@@ -71,6 +71,7 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
+        businesses = new ArrayList<Business>();
     }
 
     public User(String name, String userName, LocalDate dob, String email, String password) {
@@ -79,6 +80,7 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
+        businesses = new ArrayList<Business>();
     }
 
     public void addToListOfBusinesses(Business business){

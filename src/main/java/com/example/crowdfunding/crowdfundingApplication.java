@@ -5,6 +5,7 @@ import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication()
+@EnableAutoConfiguration
 public class crowdfundingApplication {
 
 	public static void main(String[] args) {
