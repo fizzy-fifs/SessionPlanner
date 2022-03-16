@@ -2,6 +2,7 @@ package com.example.crowdfunding.project;
 
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.project.enums.Category;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -59,6 +60,7 @@ public class Project {
     @Valid
     @NotBlank(message = "Please attach the relevant business")
     @JsonProperty
+    @JsonBackReference
     private Business projectOwner;
 
     public Project() {

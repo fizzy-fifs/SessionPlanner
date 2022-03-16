@@ -3,6 +3,8 @@ package com.example.crowdfunding.business;
 import com.example.crowdfunding.bankAccount.BankAccount;
 import com.example.crowdfunding.project.Project;
 import com.example.crowdfunding.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ public class Business {
     private String name;
 
     @JsonProperty
+    @JsonBackReference
     private User owner;
 
     @NotBlank(message = "Description  cannot be blank")
@@ -44,6 +47,7 @@ public class Business {
     private BankAccount bankAccount;
 
     @JsonProperty
+    @JsonManagedReference
     private ArrayList<Project> listedProjects;
 
 

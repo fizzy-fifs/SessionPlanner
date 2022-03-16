@@ -3,6 +3,7 @@ package com.example.crowdfunding.user;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -54,6 +55,7 @@ public class User {
     private Collection<Role> roles;
 
     @JsonProperty
+    @JsonManagedReference
     private ArrayList<Business> businesses ;
 
     @JsonProperty
@@ -84,6 +86,9 @@ public class User {
     }
 
     public void addToListOfBusinesses(Business business){
+        if (businesses == null) {
+            businesses = new ArrayList<Business>();
+        }
         businesses.add(business);
     }
 }
