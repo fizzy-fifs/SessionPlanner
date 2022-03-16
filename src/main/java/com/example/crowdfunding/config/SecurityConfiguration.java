@@ -69,6 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/api/v1.0/users/newuser");
 //        web.ignoring().antMatchers("/api/v1.0/users/login");
         web.ignoring().antMatchers("/api/v1.0/users/{id}");
+        web.ignoring().antMatchers("/api/v1.0/businesses").antMatchers(HttpMethod.GET);
+        web.ignoring().antMatchers("api/v1.0/projects").antMatchers(HttpMethod.GET);
         web.ignoring().antMatchers("/swagger-ui/**}");
     }
 
