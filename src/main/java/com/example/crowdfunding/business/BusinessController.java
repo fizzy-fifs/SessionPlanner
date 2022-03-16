@@ -55,9 +55,8 @@ public class BusinessController extends AbstractController<Business> {
         return businessService.create(business);
     }
 
-    public ResponseEntity<List<Business>> getAll() {
-        return businessService.getAll();
-    }
+    @GetMapping
+    public ResponseEntity<List<Business>> getAll() throws JsonProcessingException { return businessService.getAll(); }
 
     public String update(String id, Business newInfo) {
         return null;

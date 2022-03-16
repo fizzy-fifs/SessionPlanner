@@ -9,7 +9,7 @@ import java.util.List;
 public interface ServiceInterface<T> {
     ResponseEntity<Object> create(T entity) throws JsonProcessingException;
 
-    ResponseEntity<List<T>> getAll();
+    ResponseEntity<List<T>> getAll() throws JsonProcessingException;
 
     String update(String entityId, T newEntityInfo);
 

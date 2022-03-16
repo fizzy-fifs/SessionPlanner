@@ -26,8 +26,11 @@ public class BusinessService implements ServiceInterface<Business> {
     }
 
     @Override
-    public ResponseEntity<List<Business>> getAll() {
-        return new ResponseEntity<>(businessRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Business>> getAll() throws JsonProcessingException {
+        List<Business> allBusinesses = businessRepository.findAll();
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        String allBusinessesJson = mapper.writeValueAsString(allBusinesses);
+        return new ResponseEntity(allBusinessesJson, HttpStatus.OK);
     }
 
     @Override
