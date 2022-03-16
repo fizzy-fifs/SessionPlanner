@@ -40,9 +40,10 @@ public class ProjectController extends AbstractController<Project> {
     @PostMapping(path = "/newproject", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Object> create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
-                                         @RequestParam(name = "endDate") String endDate, @RequestParam(name = "businessId") String businessId,
+                                         @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
                                          @RequestParam(name = "images")ArrayList<MultipartFile> images) throws JsonProcessingException {
 
+        String escapedCategory = category.replaceAll("\\s+","");
         //Upload images and retrieve their corresponding urls
         ArrayList<String> imageUrls = new ArrayList<>();
         for (var eachImage: images) {
@@ -54,7 +55,7 @@ public class ProjectController extends AbstractController<Project> {
 
         //Set category
         try {
-            Category.valueOf(category);
+            Category.valueOf(escapedCategory);
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Invalid category: " + category);
         }
@@ -62,10 +63,10 @@ public class ProjectController extends AbstractController<Project> {
         //Create new project and set properties
         Project project = new Project();
         project.setTitle(title);
-        project.setCategory(Category.valueOf(category));
+        project.setCategory(Category.valueOf(escapedCategory));
         project.setDescription(description);
         project.setGoal(BigDecimal.valueOf(goal));
-        project.setEndDate(LocalDate.parse(endDate));
+        project.setEndDate(endDate);
         project.setProjectOwner(business);
         project.setImages(imageUrls);
 
