@@ -42,8 +42,8 @@ public class Project {
     @JsonProperty
     private BigDecimal goal;
 
-//    @JsonProperty
-//    @NotBlank(message = "End date cannot be blank")
+    @JsonProperty
+    @NotBlank(message = "End date cannot be blank")
     public LocalDate endDate;
 
     @JsonProperty

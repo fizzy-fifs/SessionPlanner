@@ -31,8 +31,8 @@ public class User {
     @JsonProperty
     private String userName;
 
-//    @JsonFormat( pattern = "dd/MM/yyyy" )
-//    @JsonProperty
+    @JsonFormat( pattern = "dd/MM/yyyy" )
+    @JsonProperty
     private LocalDate dob;
 
     @NotBlank(message = "Email cannot be blank")
