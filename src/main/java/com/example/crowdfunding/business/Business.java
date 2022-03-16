@@ -46,9 +46,9 @@ public class Business {
     @JsonProperty
     private BankAccount bankAccount;
 
-    @JsonProperty
-    @JsonManagedReference
-    private ArrayList<Project> listedProjects;
+//    @JsonProperty
+//    @JsonManagedReference
+//    private ArrayList<Project> listedProjects;
 
 
     public Business() {
@@ -69,7 +69,7 @@ public class Business {
         this.bankAccount = bankAccount;
     }
 
-    public void addToListedProjects(Project project) {
-        listedProjects.add(project);
-    }
+//    public void addToListedProjects(Project project) {
+//        listedProjects.add(project);
+//    }
 }

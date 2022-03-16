@@ -54,9 +54,9 @@ public class User {
     @JsonProperty
     private Collection<Role> roles;
 
-    @JsonProperty
-    @JsonManagedReference
-    private ArrayList<Business> businesses ;
+//    @JsonProperty
+//    @JsonManagedReference
+//    private ArrayList<Business> businesses ;
 
     @JsonProperty
     private boolean enabled;
@@ -73,7 +73,7 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
-        businesses = new ArrayList<Business>();
+//        businesses = new ArrayList<Business>();
     }
 
     public User(String name, String userName, LocalDate dob, String email, String password) {
@@ -82,13 +82,13 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
-        businesses = new ArrayList<Business>();
+//        businesses = new ArrayList<Business>();
     }
 
-    public void addToListOfBusinesses(Business business){
-        if (businesses == null) {
-            businesses = new ArrayList<Business>();
-        }
-        businesses.add(business);
-    }
+//    public void addToListOfBusinesses(Business business){
+//        if (businesses == null) {
+//            businesses = new ArrayList<Business>();
+//        }
+//        businesses.add(business);
+//    }
 }

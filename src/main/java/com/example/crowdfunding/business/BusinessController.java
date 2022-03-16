@@ -58,10 +58,10 @@ public class BusinessController extends AbstractController<Business> {
     @GetMapping
     public ResponseEntity<List<Business>> getAll() throws JsonProcessingException { return businessService.getAll(); }
 
-    @GetMapping(path = "/getbusinessesbyuserid/{userId}")
-    public ResponseEntity<List<Business>> getBusinessByUserId(@PathVariable("userId") String userId) throws JsonProcessingException {
-        return businessService.getBusinessByUserId(userId);
-    }
+//    @GetMapping(path = "/getbusinessesbyuserid/{userId}")
+//    public ResponseEntity<List<Business>> getBusinessByUserId(@PathVariable("userId") String userId) throws JsonProcessingException {
+//        return businessService.getBusinessByUserId(userId);
+//    }
 
     public String update(String id, Business newInfo) {
         return null;

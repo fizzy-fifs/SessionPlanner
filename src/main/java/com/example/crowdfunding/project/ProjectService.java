@@ -32,8 +32,8 @@ public class ProjectService implements ServiceInterface<Project> {
 
         //Add projects  to related business and save to db
         Business business = savedProject.getProjectOwner();
-        business.addToListedProjects(savedProject);
-        businessRepository.save(business);
+//        business.addToListedProjects(savedProject);
+//        businessRepository.save(business);
 
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String projectJson = mapper.writeValueAsString(savedProject);

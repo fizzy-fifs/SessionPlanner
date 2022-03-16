@@ -54,7 +54,7 @@ public class Project {
     @JsonProperty
     private BigDecimal amountRaised;
 
-//    @JsonProperty
+    @JsonProperty
     public LocalDate daysLeft;
 
     @Valid
