@@ -76,7 +76,7 @@ public class UserService implements ServiceInterface<User> {
         // Put JWT and user object in a map and send response
         Map<String, Object> responseData = new HashMap<>();
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String userJson = mapper.writeValueAsString(savedUser);
 
         responseData.put("user", userJson);
@@ -102,7 +102,7 @@ public class UserService implements ServiceInterface<User> {
 
         User user = userRepository.findByEmail(email);
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String userJson = mapper.writeValueAsString(user);
 
         Map<String, Object> responseData = new HashMap<>();
