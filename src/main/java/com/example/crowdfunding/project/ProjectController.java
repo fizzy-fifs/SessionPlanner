@@ -76,6 +76,11 @@ public class ProjectController extends AbstractController<Project> {
     @GetMapping
     public ResponseEntity<Object> getAll() throws JsonProcessingException { return projectService.getAll(); }
 
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Object> getProjectById(@PathVariable("projectId") String projectId) throws JsonProcessingException {
+        return projectService.getProjectById(projectId);
+    }
+
     public String update(String id, Project newInfo) {
         return null;
     }

@@ -5,6 +5,7 @@ import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,13 @@ public class ProjectService implements ServiceInterface<Project> {
     @Override
     public String delete(String entityId) {
         return null;
+    }
+
+    public ResponseEntity<Object> getProjectById(String projectId) throws JsonProcessingException {
+        Project project = projectRepository.findById(new ObjectId(projectId));
+
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        String projectJson = mapper.writeValueAsString(project);
+        return ResponseEntity.ok(projectJson);
     }
 }
