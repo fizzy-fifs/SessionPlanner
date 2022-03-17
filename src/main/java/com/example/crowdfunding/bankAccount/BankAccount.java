@@ -1,5 +1,6 @@
 package com.example.crowdfunding.bankAccount;
 
+import com.example.crowdfunding.address.Address;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,4 +16,7 @@ public class BankAccount {
 
     @JsonProperty
     private String name;
+
+    @JsonProperty
+    private Address billingAddress;
 }

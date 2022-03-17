@@ -1,5 +1,6 @@
 package com.example.crowdfunding.business;
 
+import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.bankAccount.BankAccount;
 import com.example.crowdfunding.project.Project;
 import com.example.crowdfunding.user.User;
@@ -46,9 +47,8 @@ public class Business {
     @JsonProperty
     private BankAccount bankAccount;
 
-//    @JsonProperty
-//    @JsonManagedReference
-//    private ArrayList<Project> listedProjects;
+    @JsonProperty
+    private Address address;
 
 
     public Business() {

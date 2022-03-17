@@ -1,5 +1,6 @@
 package com.example.crowdfunding.user;
 
+import com.example.crowdfunding.bankAccount.BankAccount;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -52,11 +53,10 @@ public class User {
     private String image;
 
     @JsonProperty
-    private Collection<Role> roles;
+    private BankAccount bankAccount;
 
-//    @JsonProperty
-//    @JsonManagedReference
-//    private ArrayList<Business> businesses ;
+    @JsonProperty
+    private Collection<Role> roles;
 
     @JsonProperty
     private boolean enabled;

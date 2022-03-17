@@ -44,11 +44,6 @@ public class crowdfundingApplication {
 		return new CloudinaryService(){};
 	}
 
-//	@Bean
-//	public ObjectMapper objectMapper() {
-//		return new ObjectMapper().disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-//	}
-
 	@Bean
 	@Primary
 	public ObjectMapper objectMapper() {
