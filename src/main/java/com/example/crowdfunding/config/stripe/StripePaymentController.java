@@ -55,7 +55,7 @@ public class StripePaymentController {
 
         Gson gson = new Gson();
 
-        Stripe.apiKey = System.getenv("stripe.api.key.test");
+        Stripe.apiKey = System.getenv("stripe.api.key.live");
 
         CustomerCreateParams customerParams = new CustomerCreateParams.Builder().build();
         Customer customer = Customer.create(customerParams);

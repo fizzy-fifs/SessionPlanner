@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WebController {
 
     @Value("${stripe.public.key}")
-    private String stripePublicKey;
+    private String stripePublicKey = System.getenv("stripe_live_publishable_key");
 
     @GetMapping(path = "/api/v1.0/payments")
     public String home(Model model) {
