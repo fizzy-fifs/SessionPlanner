@@ -7,14 +7,14 @@ import java.math.BigDecimal;
 
 public class CreatePayment {
 
-        @SerializedName("items")
-        Object[] items;
+        @SerializedName("amount")
+        BigDecimal amount;
 
-        public Object[] getItems() {
-                return items;
+        public BigDecimal getAmount() {
+                return amount;
         }
 
-        public void setItems(Object[] items) {
-                this.items = items;
+        public void setItems(BigDecimal amount) {
+                this.amount = amount;
         }
 }

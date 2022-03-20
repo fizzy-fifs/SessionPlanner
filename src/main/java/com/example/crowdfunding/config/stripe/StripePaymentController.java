@@ -13,14 +13,16 @@ import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.PaymentMethodListParams;
 import com.stripe.exception.*;
 
+import java.math.BigDecimal;
+
 @RestController
 public class StripePaymentController {
 
-    static int calculateOrderAmount(Object[] items) {
+    static long calculateOrderAmount(BigDecimal amount) {
         // Replace this constant with a calculation of the order's amount
         // Calculate the order total on the server to prevent
         // people from directly manipulating the amount on the client
-        return 1;
+        return amount.longValue();
     }
 
     // Call this function with the ID of the Customer you want to charge
@@ -51,7 +53,7 @@ public class StripePaymentController {
     }
 
     @PostMapping(path = "/api/v1.0/payments/create-payment-intent")
-    public String createPaymentIntent(@RequestBody CreatePayment createPayment) throws StripeException {
+    public String createPaymentIntent(@RequestBody Long amount) throws StripeException {
 
         Gson gson = new Gson();
 
@@ -63,8 +65,8 @@ public class StripePaymentController {
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                 .setCustomer(customer.getId())
                 .setSetupFutureUsage(PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION)
-                .setAmount((long) calculateOrderAmount(createPayment.getItems()))
-                .setCurrency("usd")
+                .setAmount(amount)
+                .setCurrency("eur")
                 .setAutomaticPaymentMethods(
                         PaymentIntentCreateParams.AutomaticPaymentMethods
                                 .builder()

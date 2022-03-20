@@ -1,6 +1,8 @@
       // This is your test publishable API key.
 const stripe = Stripe(stripePublicKey);
 
+console.log(amount);
+
 // The items the customer wants to buy
 const items = [{ id: "xl-tshirt" }];
 
@@ -18,7 +20,7 @@ async function initialize() {
   const response = await fetch("/api/v1.0/payments/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items }),
+    body: amount,
   });
   const { clientSecret } = await response.json();
 
@@ -39,7 +41,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:3000/home",
+      return_url: "http://localhost:3001/home",
       receipt_email: document.getElementById("email").value,
     },
   });
