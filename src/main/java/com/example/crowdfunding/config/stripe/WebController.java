@@ -19,6 +19,11 @@ public class WebController {
         return "CheckoutForm";
     }
 
+    @GetMapping(path = "/api/v1.0/payments/success")
+    public String successfulPayment() {
+        return "Success";
+    }
+
 
 
 }
