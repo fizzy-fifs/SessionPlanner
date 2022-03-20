@@ -64,7 +64,7 @@ public class StripePaymentController {
                 .setCustomer(customer.getId())
                 .setSetupFutureUsage(PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION)
                 .setAmount((long) calculateOrderAmount(createPayment.getItems()))
-                .setCurrency("eur")
+                .setCurrency("usd")
                 .setAutomaticPaymentMethods(
                         PaymentIntentCreateParams.AutomaticPaymentMethods
                                 .builder()
