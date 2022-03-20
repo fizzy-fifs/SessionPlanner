@@ -5,9 +5,16 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
 public class CreatePayment {
 
         @SerializedName("items")
-        BigDecimal amount;
+        Object[] items;
+
+        public Object[] getItems() {
+                return items;
+        }
+
+        public void setItems(Object[] items) {
+                this.items = items;
+        }
 }

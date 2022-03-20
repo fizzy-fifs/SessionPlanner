@@ -10,12 +10,16 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.stripe.Stripe;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -23,7 +27,13 @@ import java.util.Map;
 
 @SpringBootApplication()
 @EnableAutoConfiguration
-public class crowdfundingApplication {
+@EnableWebMvc
+public class crowdfundingApplication extends WebMvcAutoConfiguration {
+
+	@PostConstruct
+	public void setup() {
+		Stripe.apiKey = "sk_test_51KeDy4FkYRYTO3iFNb2qqLkowbG3kchP8NnHiJxsiJxlqXgnA2417cqAOgSgjygFjjvjyxqrlT336iH9WUI2tfaj00ALSQuIdp";
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(crowdfundingApplication.class, args);
