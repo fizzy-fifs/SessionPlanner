@@ -53,7 +53,7 @@ public class StripePaymentController {
     }
 
     @PostMapping(path = "/api/v1.0/payments/create-payment-intent")
-    public String createPaymentIntent(@RequestBody Long amount) throws StripeException {
+    public String createPaymentIntent(@RequestBody double amount) throws StripeException {
 
         Gson gson = new Gson();
 
@@ -65,8 +65,9 @@ public class StripePaymentController {
         PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
                 .setCustomer(customer.getId())
                 .setSetupFutureUsage(PaymentIntentCreateParams.SetupFutureUsage.OFF_SESSION)
-                .setAmount(amount)
-                .setCurrency("eur")
+                .setAmount((long) (amount * 100L))
+                .setCurrency("usd")
+//                .addPaymentMethodType("card")
                 .setAutomaticPaymentMethods(
                         PaymentIntentCreateParams.AutomaticPaymentMethods
                                 .builder()
