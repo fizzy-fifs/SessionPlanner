@@ -1,5 +1,6 @@
 package com.example.crowdfunding.project;
 
+import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.cloudinary.CloudinaryService;
@@ -42,7 +43,7 @@ public class ProjectController extends AbstractController<Project> {
     public ResponseEntity<Object> create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
                                          @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
-                                         @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException {
+                                         @RequestBody Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException {
 
         String escapedCategory = category.replaceAll("\\s+","");
         //Upload images and retrieve their corresponding urls
@@ -69,6 +70,7 @@ public class ProjectController extends AbstractController<Project> {
         project.setGoal(BigDecimal.valueOf(goal));
         project.setEndDate(endDate);
         project.setProjectOwner(business);
+        project.setAddress(address);
         project.setImages(imageUrls);
 
         return projectService.create(project);
