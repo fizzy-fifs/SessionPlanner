@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class ProjectController extends AbstractController<Project> {
     public ResponseEntity<Object> create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
                                          @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
-                                         @RequestParam(name = "images")ArrayList<MultipartFile> images) throws JsonProcessingException {
+                                         @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException {
 
         String escapedCategory = category.replaceAll("\\s+","");
         //Upload images and retrieve their corresponding urls
