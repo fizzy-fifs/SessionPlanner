@@ -67,6 +67,12 @@ public class Project {
     @JsonProperty
     private Address address;
 
+    @JsonProperty
+    private String Latitude;
+
+    @JsonProperty
+    private String Longitude;
+
     public Project() {
     }
 
