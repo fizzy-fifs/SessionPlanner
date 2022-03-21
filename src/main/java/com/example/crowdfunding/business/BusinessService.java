@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,15 +60,15 @@ public class BusinessService implements ServiceInterface<Business> {
         return null;
     }
 
-//    public ResponseEntity<List<Business>> getBusinessByUserId(String userId) throws JsonProcessingException {
-//        User user = userRepository.findById(new ObjectId(userId));
-//        if (user == null){ return new ResponseEntity("Invalid userId", HttpStatus.BAD_REQUEST); }
-//
-//        ArrayList<Business> business = user.getBusinesses();
-//
-//        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
-//        String businessJson = mapper.writeValueAsString(business);
-//
-//        return new ResponseEntity(businessJson, HttpStatus.OK);
-//    }
+    public ResponseEntity<ArrayList<Business>> getBusinessByUserId(String userId) throws JsonProcessingException {
+        User user = userRepository.findById(new ObjectId(userId));
+        if (user == null){ return new ResponseEntity("Invalid userId", HttpStatus.BAD_REQUEST); }
+
+        ArrayList<Business> businesses = businessRepository.findByOwner(user);
+
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        String businessesJson = mapper.writeValueAsString(businesses);
+
+        return new ResponseEntity(businessesJson, HttpStatus.OK);
+    }
 }
