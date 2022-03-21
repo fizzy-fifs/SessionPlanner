@@ -11,7 +11,7 @@ public class GeocodeLocation {
     @JsonProperty("lat")
     private String latitude;
 
-    @JsonProperty
+    @JsonProperty("lng")
     private String longitude;
 
     public GeocodeLocation() {

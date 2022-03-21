@@ -7,6 +7,7 @@ import com.example.crowdfunding.geocoding.GeocodingService;
 import com.example.crowdfunding.interfaces.ServiceInterface;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.maps.errors.ApiException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ProjectService implements ServiceInterface<Project> {
     }
 
     @Override
-    public ResponseEntity<Object> create(Project project) throws IOException {
+    public ResponseEntity<Object> create(Project project) throws IOException, InterruptedException, ApiException {
         //Get lat and lng for project
         GeocodeLocation latAndLng = geocodingService.getLatAndLng(project);
 

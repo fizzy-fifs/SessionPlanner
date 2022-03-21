@@ -7,6 +7,7 @@ import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
 import com.example.crowdfunding.project.enums.Category;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.maps.errors.ApiException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -43,7 +44,7 @@ public class ProjectController extends AbstractController<Project> {
     public ResponseEntity<Object> create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
                                          @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
-                                         @RequestBody Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException {
+                                         @ModelAttribute Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException, InterruptedException, ApiException {
 
         String escapedCategory = category.replaceAll("\\s+","");
         //Upload images and retrieve their corresponding urls
