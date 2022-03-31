@@ -2,6 +2,7 @@
 const stripe = Stripe(stripePublicKey);
 
 console.log(amount);
+console.log(projectId);
 
 // The items the customer wants to buy
 const items = [{ id: "xl-tshirt" }];
@@ -14,9 +15,10 @@ checkStatus();
 document
   .querySelector("#payment-form")
   .addEventListener("submit", handleSubmit);
-
+console.log("before the initialize function")
 // Fetches a payment intent and captures the client secret
 async function initialize() {
+console.log("inside the initialize function")
   const response = await fetch("/api/v1.0/payments/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -41,7 +43,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:3001/payments-success",
+      return_url: "http://localhost:3000/payments-success",
       receipt_email: document.getElementById("email").value,
     },
   });
@@ -73,7 +75,9 @@ async function checkStatus() {
   const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
 
   switch (paymentIntent.status) {
-    case "succeeded":
+     case "succeeded":
+      console.log("Succeeded payment")
+      await saveAmountToDb();
       showMessage("Payment succeeded!");
       break;
     case "processing":
@@ -89,10 +93,17 @@ async function checkStatus() {
 }
 
 // ------- UI helpers -------
+async function saveAmountToDb(){
+      fetch("/api/v1.0/payments/success", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: projectId, amount,
+      });
+      return;
+}
 
 function showMessage(messageText) {
   const messageContainer = document.querySelector("#payment-message");
-
   messageContainer.classList.remove("hidden");
   messageContainer.textContent = messageText;
 

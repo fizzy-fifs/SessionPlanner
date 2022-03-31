@@ -45,6 +45,7 @@ public class Project {
     private BigDecimal goal;
 
     @JsonProperty
+
     @NotBlank(message = "End date cannot be blank")
     public LocalDate endDate;
 
@@ -53,7 +54,7 @@ public class Project {
     public ArrayList<String> images;
 
     @JsonProperty
-    private BigDecimal amountRaised;
+    private BigDecimal amountRaised = BigDecimal.valueOf(0);
 
     @JsonProperty
     public LocalDate daysLeft;
@@ -95,5 +96,8 @@ public class Project {
         this.images = images;
     }
 
+    public void addDonationToAmountRaised(BigDecimal donation){
+        amountRaised.add(donation);
+    }
 
 }
