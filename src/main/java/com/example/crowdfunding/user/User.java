@@ -2,6 +2,7 @@ package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.bankAccount.BankAccount;
 import com.example.crowdfunding.business.Business;
+import com.example.crowdfunding.reward.Reward;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -15,6 +16,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 @Data
 @Document(collection="Users")
@@ -56,6 +58,9 @@ public class User {
     private BankAccount bankAccount;
 
     @JsonProperty
+    private ArrayList<Reward> earnedRewards;
+
+    @JsonProperty
     private Collection<Role> roles;
 
     @JsonProperty
@@ -73,7 +78,6 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
-//        businesses = new ArrayList<Business>();
     }
 
     public User(String name, String userName, LocalDate dob, String email, String password) {
@@ -82,13 +86,13 @@ public class User {
         this.dob = dob;
         this.email = email;
         this.password = password;
-//        businesses = new ArrayList<Business>();
     }
 
-//    public void addToListOfBusinesses(Business business){
-//        if (businesses == null) {
-//            businesses = new ArrayList<Business>();
-//        }
-//        businesses.add(business);
-//    }
+    public void generateReward() {
+        Reward reward = new Reward();
+        Random random = new Random();
+        int randomItem = random.nextInt(reward.getRewardsList().size());
+        reward.setName(reward.getRewardsList().get(randomItem));
+        earnedRewards.add(reward);
+    }
 }
