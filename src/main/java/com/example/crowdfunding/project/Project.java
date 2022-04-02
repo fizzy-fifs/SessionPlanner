@@ -2,6 +2,7 @@ package com.example.crowdfunding.project;
 
 import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.business.Business;
+import com.example.crowdfunding.donor.Donor;
 import com.example.crowdfunding.project.enums.Category;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -64,6 +65,8 @@ public class Project {
     @JsonProperty
     @JsonBackReference
     private Business projectOwner;
+
+    private ArrayList<Donor> projectDonors;
 
     @JsonProperty
     private Address address;
