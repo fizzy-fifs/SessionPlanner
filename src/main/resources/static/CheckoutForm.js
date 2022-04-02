@@ -94,10 +94,10 @@ async function checkStatus() {
 
 // ------- UI helpers -------
 async function saveAmountToDb(){
-      fetch("/api/v1.0/payments/success", {
+      await fetch("/api/v1.0/payments/success", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: projectId, amount,
+        body: projectId, amount, userId
       });
       return;
 }

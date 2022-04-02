@@ -1,7 +1,11 @@
 package com.example.crowdfunding.config.stripe;
 
+import com.example.crowdfunding.donor.Donor;
 import com.example.crowdfunding.project.Project;
 import com.example.crowdfunding.project.ProjectRepository;
+import com.example.crowdfunding.reward.Reward;
+import com.example.crowdfunding.user.User;
+import com.example.crowdfunding.user.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,21 +24,33 @@ public class WebController {
     private String stripePublicKey;
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping(path = "/api/v1.0/payments/{projectId}&{amount}")
-    public String home(Model model, @PathVariable("projectId")String projectId, @PathVariable("amount")BigDecimal amount) {
+    @GetMapping(path = "/api/v1.0/payments/{projectId}&{amount}&{userId}")
+    public String home(Model model, @PathVariable("projectId")String projectId,
+                       @PathVariable("amount")BigDecimal amount,  @PathVariable("userid")String userId) {
         model.addAttribute("stripePublicKey", stripePublicKey);
         model.addAttribute("projectId", projectId);
         model.addAttribute("amount", amount.longValue());
+        model.addAttribute(userId, userId);
         return "CheckoutForm";
     }
 
-    @GetMapping(path = "/api/v1.0/payments/success/{projectId}/{amount}")
-    public void successfulPayment(@RequestBody String projectId, @RequestBody long amount) {
+    @GetMapping(path = "/api/v1.0/payments/success")
+    public void successfulPayment(@RequestBody String projectId, @RequestBody long amount, @RequestBody String userId) {
 
-        // Add donated amount to project and save in DB
+        //Find donor in user repo and generate user's reward
+        User user = userRepository.findById(new ObjectId(userId));
+        Reward reward = user.addReward();
+        userRepository.save(user);
+
+        // Add donated amount and donor to project
         Project project = projectRepository.findById(new ObjectId(projectId));
         project.addDonationToAmountRaised(BigDecimal.valueOf(amount));
+        project.addToDonorsList(
+                new Donor(user, BigDecimal.valueOf(amount), reward )
+        );
         projectRepository.save(project);
     }
 

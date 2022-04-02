@@ -66,6 +66,7 @@ public class Project {
     @JsonBackReference
     private Business projectOwner;
 
+    @JsonProperty
     private ArrayList<Donor> projectDonors;
 
     @JsonProperty
@@ -101,6 +102,10 @@ public class Project {
 
     public void addDonationToAmountRaised(BigDecimal donation){
         amountRaised.add(donation);
+    }
+
+    public void addToDonorsList(Donor donor) {
+        projectDonors.add(donor);
     }
 
 }

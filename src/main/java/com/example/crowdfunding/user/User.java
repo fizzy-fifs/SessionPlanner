@@ -88,12 +88,12 @@ public class User {
         this.password = password;
     }
 
-    public String generateReward() {
+    public Reward addReward() {
         Reward reward = new Reward();
         Random random = new Random();
         int randomItem = random.nextInt(reward.getRewardsList().size());
         reward.setName(reward.getRewardsList().get(randomItem));
         earnedRewards.add(reward);
-        return reward.getName();
+        return reward;
     }
 }
