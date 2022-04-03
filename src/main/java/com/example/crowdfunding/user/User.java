@@ -37,10 +37,6 @@ public class User {
     @JsonProperty
     private String userName;
 
-    @JsonFormat( pattern = "dd/MM/yyyy" )
-    @JsonProperty
-    private LocalDate dob;
-
     @NotBlank(message = "Email cannot be blank")
     @Email(message="Please provide a valid email address")
     @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
@@ -76,19 +72,17 @@ public class User {
 
     public User() {}
 
-    public User(String id, String name, String userName, LocalDate dob, String email, String password) {
+    public User(String id, String name, String userName, String email, String password) {
         this.id = id;
         this.name = name;
         this.userName = userName;
-        this.dob = dob;
         this.email = email;
         this.password = password;
     }
 
-    public User(String name, String userName, LocalDate dob, String email, String password) {
+    public User(String name, String userName, String email, String password) {
         this.name = name;
         this.userName = userName;
-        this.dob = dob;
         this.email = email;
         this.password = password;
     }

@@ -1,5 +1,6 @@
 package com.example.crowdfunding.config.stripe;
 
+import com.example.crowdfunding.config.GoogleSheetsService;
 import com.example.crowdfunding.config.SendGridService;
 import com.example.crowdfunding.donor.Donor;
 import com.example.crowdfunding.project.Project;
@@ -7,6 +8,8 @@ import com.example.crowdfunding.project.ProjectRepository;
 import com.example.crowdfunding.reward.Reward;
 import com.example.crowdfunding.user.User;
 import com.example.crowdfunding.user.UserRepository;
+import com.google.api.services.sheets.v4.model.AppendValuesResponse;
+import com.google.api.services.sheets.v4.model.Spreadsheet;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,6 +61,17 @@ public class WebController {
         project.addToDonorsList(
                 new Donor(user, BigDecimal.valueOf(amount), reward )
         );
+
+        if (project.getAmountRaised() == project.getGoal()) {
+            //Create google sheets spreadsheet
+            GoogleSheetsService googleSheetsService = new GoogleSheetsService();
+            Spreadsheet spreadsheet = googleSheetsService.create();
+            AppendValuesResponse appendValues = googleSheetsService.addValues(spreadsheet.getSpreadsheetId(), project.getProjectDonors());
+
+            //Send spreadsheet to the project owner
+            String projectOwnerEmail = project.getProjectOwner().getOwner().getEmail();
+            SendGridService.sendDonorListEmail(projectOwnerEmail, spreadsheet.getSpreadsheetUrl());
+        }
         projectRepository.save(project);
     }
 

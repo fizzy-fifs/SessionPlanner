@@ -34,4 +34,27 @@ public class SendGridService {
             throw ex;
         }
     }
+
+    public static void sendDonorListEmail(String to, String googleSheetsUrl) throws IOException {
+        Email sender = new Email("BusinessMagic2@gmail.com");
+        Email receiver = new Email(to);
+
+        String subject = "Congratulations on completing your raise";
+        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: {0}", googleSheetsUrl);
+        Content content = new Content("text/plain",message);
+
+        Mail mail = new Mail(sender, subject, receiver, content);
+
+        SendGrid sg = new SendGrid(System.getenv("sendgrid_api_key"));
+        Request request = new Request();
+
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+        } catch (IOException ex){
+            throw ex;
+        }
+    }
 }
