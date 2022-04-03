@@ -25,11 +25,11 @@ public class Reward {
     @JsonIgnore
     private ArrayList<String> rewardsList = new ArrayList<>() {
         {
-            add("Two cinema tickets");
-            add("Romantic dinner for two");
-            add("$50 Amazon voucher");
-            add("Sony Playstation 5");
-            add("All expense paid trip to Santorini");
+            add("Free cinema tickets for two");
+            add("A romantic dinner for two");
+            add("A $50 Amazon voucher");
+            add("A Sony Playstation 5");
+            add("An all expense paid trip to Santorini");
         }
     };
 
