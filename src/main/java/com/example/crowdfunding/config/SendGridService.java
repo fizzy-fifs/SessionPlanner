@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 public class SendGridService {
-    public static void sendRewardsEmail(String to, String projectTitle, String rewardName, String uuid) throws IOException {
+    public static void sendRewardsEmail(String to, String projectTitle, String rewardName, String rewardId) throws IOException {
         Email sender = new Email("BusinessMagic2@gmail.com");
         Email receiver = new Email(to);
 
         String subject = "Your FundedLocal Donation";
-        String message = MessageFormat.format("Thank you for donating to {0}, you have earned {1}. Your unique identification number is {2}", projectTitle, rewardName, uuid);
+        String message = MessageFormat.format("Thank you for donating to {0}, you have earned {1}. Your unique identification number is {2}", projectTitle, rewardName, rewardId);
         Content content = new Content("text/plain",message);
 
         Mail mail = new Mail(sender, subject, receiver, content);

@@ -1,5 +1,6 @@
 package com.example.crowdfunding.config.stripe;
 
+import com.example.crowdfunding.config.SendGridService;
 import com.example.crowdfunding.donor.Donor;
 import com.example.crowdfunding.project.Project;
 import com.example.crowdfunding.project.ProjectRepository;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 @Controller
@@ -38,7 +40,8 @@ public class WebController {
     }
 
     @GetMapping(path = "/api/v1.0/payments/success")
-    public void successfulPayment(@RequestBody String projectId, @RequestBody long amount, @RequestBody String userId) {
+    public void successfulPayment(@RequestBody String projectId, @RequestBody long amount,
+                                  @RequestBody String userId) throws IOException {
         //Find project
         Project project = projectRepository.findById(new ObjectId(projectId));
 
@@ -46,6 +49,9 @@ public class WebController {
         User user = userRepository.findById(new ObjectId(userId));
         Reward reward = user.generateReward(project.getProjectOwner());
         userRepository.save(user);
+
+        //Send email to user
+        SendGridService.sendRewardsEmail(user.getEmail(), project.getTitle(), reward.getName(), reward.getId().toString());
 
         // Add donated amount and donor to project
         project.addDonationToAmountRaised(BigDecimal.valueOf(amount));
