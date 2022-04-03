@@ -39,14 +39,15 @@ public class WebController {
 
     @GetMapping(path = "/api/v1.0/payments/success")
     public void successfulPayment(@RequestBody String projectId, @RequestBody long amount, @RequestBody String userId) {
+        //Find project
+        Project project = projectRepository.findById(new ObjectId(projectId));
 
         //Find donor in user repo and generate user's reward
         User user = userRepository.findById(new ObjectId(userId));
-        Reward reward = user.addReward();
+        Reward reward = user.generateReward(project.getProjectOwner());
         userRepository.save(user);
 
         // Add donated amount and donor to project
-        Project project = projectRepository.findById(new ObjectId(projectId));
         project.addDonationToAmountRaised(BigDecimal.valueOf(amount));
         project.addToDonorsList(
                 new Donor(user, BigDecimal.valueOf(amount), reward )

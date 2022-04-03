@@ -3,11 +3,13 @@ package com.example.crowdfunding.user;
 import com.example.crowdfunding.bankAccount.BankAccount;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.reward.Reward;
+import com.example.crowdfunding.reward.RewardRepository;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -69,6 +71,9 @@ public class User {
     @JsonProperty
     private boolean tokenExpired;
 
+    @Autowired
+    private RewardRepository rewardRepository;
+
     public User() {}
 
     public User(String id, String name, String userName, LocalDate dob, String email, String password) {
@@ -88,11 +93,22 @@ public class User {
         this.password = password;
     }
 
-    public Reward addReward() {
+    public Reward generateReward(Business business) {
+        //Create a new reward
         Reward reward = new Reward();
+
+        //Select a reward at random from the rewards list
         Random random = new Random();
         int randomItem = random.nextInt(reward.getRewardsList().size());
+
+        //Set the reward's name and associated business
         reward.setName(reward.getRewardsList().get(randomItem));
+        reward.setAssociatedBusiness(business);
+
+        //Save reward in db
+        rewardRepository.insert(reward);
+
+        //Add created reward to the user's earned rewards list
         earnedRewards.add(reward);
         return reward;
     }
