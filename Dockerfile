@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk-alpine
-WORKDIR /app
-ARG JAR_FILE=target/*.jar
+FROM openjdk:16
+EXPOSE 8080
+ARG JAR_FILE=target/funded-local-server.jar funded-local-server.jar
 COPY ${JAR_FILE} .
-# ENTRYPOINT ["java", "-jar","/app/build/libs/app-1.0.0.jar"]
+ENTRYPOINT ["java", "-jar","/funded-local-server.jar"]

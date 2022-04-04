@@ -266,6 +266,7 @@
 			</plugin>
 
         </plugins>
+		<finalName>funded-local-server</finalName>
 	</build>
 
 </project>
