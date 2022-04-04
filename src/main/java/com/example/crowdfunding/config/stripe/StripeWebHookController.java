@@ -21,7 +21,7 @@ public class StripeWebHookController {
     @PostMapping("/api/v1.0/payments/stripe/events")
     public String handleStripeEvents(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
 
-        Stripe.apiKey = System.getenv("stripe.api.key.live");
+        Stripe.apiKey = System.getenv("stripe_api_key_live");
         String endpointSecret = System.getenv("stripe_webhook_secret");
 
         if (sigHeader == null){ return "";}
