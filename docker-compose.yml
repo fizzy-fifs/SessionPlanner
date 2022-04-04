@@ -1,0 +1,15 @@
+version: '2'
+services:
+  crowd-funding:
+    container_name: funded-local-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: funded-local-server:latest
+    ports:
+      - 18888:8888
+    networks:
+      - spring-cloud-network
+networks:
+  spring-cloud-network:
+    driver: bridge
