@@ -34,7 +34,7 @@ public class WebController {
 
     @GetMapping(path = "/api/v1.0/payments/{projectId}&{amount}&{userId}")
     public String home(Model model, @PathVariable("projectId")String projectId,
-                       @PathVariable("amount")BigDecimal amount,  @PathVariable("userid")String userId) {
+                       @PathVariable("amount")BigDecimal amount,  @PathVariable("userId")String userId) {
         model.addAttribute("stripePublicKey", stripePublicKey);
         model.addAttribute("projectId", projectId);
         model.addAttribute("amount", amount.longValue());
