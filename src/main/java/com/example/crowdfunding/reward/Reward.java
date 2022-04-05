@@ -24,7 +24,7 @@ public class Reward {
     private String name;
 
     @JsonBackReference
-    private Project associatedProject;
+    private String projectId;
 
     @JsonIgnore
     private ArrayList<String> rewardsList = new ArrayList<>() {

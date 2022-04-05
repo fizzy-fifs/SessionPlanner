@@ -1,9 +1,7 @@
 package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.bankAccount.BankAccount;
-import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.reward.Reward;
-import com.example.crowdfunding.reward.RewardRepository;
 import com.example.crowdfunding.reward.RewardService;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.*;
@@ -14,10 +12,8 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Random;
 
 @Data
 @Document(collection="Users")

@@ -64,11 +64,9 @@ public class Project {
     @Valid
     @NotBlank(message = "Please attach the relevant business")
     @JsonProperty
-    @JsonBackReference
     private Business projectOwner;
 
     @JsonProperty
-    @JsonManagedReference
     private ArrayList<Donor> projectDonors = new ArrayList<>();
 
     @JsonProperty

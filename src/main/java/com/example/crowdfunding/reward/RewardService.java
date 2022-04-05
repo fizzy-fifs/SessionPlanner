@@ -21,7 +21,7 @@ public class RewardService {
 
         //Set the reward's name and associated business
         reward.setName(reward.getRewardsList().get(randomItem));
-        reward.setAssociatedProject(project);
+        reward.setProjectId(project.getId());
 
         //Save reward in db
         rewardRepository.insert(reward);

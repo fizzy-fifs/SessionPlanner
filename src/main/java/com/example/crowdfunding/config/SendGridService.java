@@ -35,12 +35,12 @@ public class SendGridService {
         }
     }
 
-    public static void sendDonorListEmail(String to, String googleSheetsUrl) throws IOException {
+    public static void sendDonorListEmail(String to, String googleSheetsId) throws IOException {
         Email sender = new Email("BusinessMagic2@gmail.com");
         Email receiver = new Email(to);
 
         String subject = "Congratulations on completing your raise";
-        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: {0}", googleSheetsUrl);
+        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: https://sheets.googleapis.com/v4/spreadsheets/{0}", googleSheetsId);
         Content content = new Content("text/plain",message);
 
         Mail mail = new Mail(sender, subject, receiver, content);
