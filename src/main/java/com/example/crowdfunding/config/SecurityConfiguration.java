@@ -58,7 +58,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("api/v1.0/projects").anonymous().and()
                 .authorizeRequests().antMatchers("/api/v1.0/businesses").anonymous().and()
                 .authorizeRequests().antMatchers("/api/v1.0/users/{id}").anonymous().and()
-                .authorizeRequests().antMatchers("/api/v1.0/payments/**").anonymous()
+                .authorizeRequests().antMatchers("/api/v1.0/payments").anonymous().and()
+                .authorizeRequests().antMatchers("/api/v1.0/payments/create-payment-intent").anonymous().and()
+                .authorizeRequests().antMatchers("/api/v1.0/payments/{projectId}&{amount}&{userId}").anonymous()
         ;
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
