@@ -42,8 +42,7 @@ public class SuccessfullPaymentController {
         userRepository.save(user);
 
         //Send email to user
-        SendGridService sendGridService = new SendGridService();
-        sendGridService.sendRewardsEmail(user.getEmail(), project.getTitle(), reward.getName(), reward.getId().toString());
+        SendGridService.sendRewardsEmail(user.getEmail(), project.getTitle(), reward.getName(), reward.getId().toString());
         System.out.println("Sent email");
 
 
@@ -58,12 +57,13 @@ public class SuccessfullPaymentController {
             //Create google sheets spreadsheet
             GoogleSheetsService googleSheetsService = new GoogleSheetsService();
             Spreadsheet spreadsheet = googleSheetsService.create();
+            System.out.println(spreadsheet.getSpreadsheetUrl());
             AppendValuesResponse appendValues = googleSheetsService.addValues(spreadsheet.getSpreadsheetId(), project.getProjectDonors());
             System.out.println("Created google sheets");
 
             //Send spreadsheet to the project owner
             String projectOwnerEmail = project.getProjectOwner().getOwner().getEmail();
-            sendGridService.sendDonorListEmail(projectOwnerEmail, spreadsheet.getSpreadsheetUrl());
+            SendGridService.sendDonorListEmail(projectOwnerEmail, spreadsheet.getSpreadsheetId());
             System.out.println(spreadsheet.getSpreadsheetUrl());
         }
     }

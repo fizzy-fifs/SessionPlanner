@@ -30,6 +30,9 @@ public class SendGridService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
         } catch (IOException ex){
             throw ex;
         }
@@ -40,7 +43,7 @@ public class SendGridService {
         Email receiver = new Email(to);
 
         String subject = "Congratulations on completing your raise";
-        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: https://sheets.googleapis.com/v4/spreadsheets/{0}", googleSheetsId);
+        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: https://docs.google.com/spreadsheets/d/{0}/edit", googleSheetsId);
         Content content = new Content("text/plain",message);
 
         Mail mail = new Mail(sender, subject, receiver, content);
@@ -53,6 +56,9 @@ public class SendGridService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
         } catch (IOException ex){
             throw ex;
         }
