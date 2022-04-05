@@ -1,26 +1,30 @@
 package com.example.crowdfunding.reward;
 
-import com.example.crowdfunding.business.Business;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.crowdfunding.project.Project;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 @Data
 @Document(collection = "Rewards")
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 public class Reward {
 
     @JsonProperty
-    private UUID id = UUID.randomUUID();
+    @MongoId(FieldType.OBJECT_ID)
+    private String id;
 
     @JsonProperty
     private String name;
 
-    @JsonProperty
-    private Business associatedBusiness;
+    @JsonBackReference
+    private Project associatedProject;
 
     @JsonIgnore
     private ArrayList<String> rewardsList = new ArrayList<>() {

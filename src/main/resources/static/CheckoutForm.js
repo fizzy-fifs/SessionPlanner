@@ -18,7 +18,6 @@ document
 console.log("before the initialize function")
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-console.log("inside the initialize function")
   const response = await fetch("/api/v1.0/payments/create-payment-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -35,18 +34,33 @@ console.log("inside the initialize function")
   paymentElement.mount("#payment-element");
 }
 
+async function saveAmountToDb(){
+
+console.log("projectId: " + projectId, "amount: " + amount, "userId: " + userId)
+
+  await fetch(`/api/v1.0/payments/success/${projectId}&${amount}&${userId}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+  return;
+}
+
 async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
+
+saveAmountToDb();
 
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url: "http://localhost:3000/payments-success",
+      return_url: "https://fundedlocal.onrender.com/payments-success",
       receipt_email: document.getElementById("email").value,
     },
   });
+
+
 
   // This point will only be reached if there is an immediate error when
   // confirming the payment. Otherwise, your customer will be redirected to
@@ -76,8 +90,6 @@ async function checkStatus() {
 
   switch (paymentIntent.status) {
      case "succeeded":
-      console.log("Succeeded payment")
-      await saveAmountToDb();
       showMessage("Payment succeeded!");
       break;
     case "processing":
@@ -93,15 +105,6 @@ async function checkStatus() {
 }
 
 // ------- UI helpers -------
-async function saveAmountToDb(){
-      await fetch("/api/v1.0/payments/success", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: projectId, amount, userId
-      });
-      return;
-}
-
 function showMessage(messageText) {
   const messageContainer = document.querySelector("#payment-message");
   messageContainer.classList.remove("hidden");

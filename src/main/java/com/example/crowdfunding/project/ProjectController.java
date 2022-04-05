@@ -68,7 +68,7 @@ public class ProjectController extends AbstractController<Project> {
         project.setTitle(title);
         project.setCategory(Category.valueOf(escapedCategory));
         project.setDescription(description);
-        project.setGoal(BigDecimal.valueOf(goal));
+        project.setGoal(goal);
         project.setEndDate(endDate);
         project.setProjectOwner(business);
         project.setAddress(address);

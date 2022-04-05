@@ -4,7 +4,9 @@ import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.bankAccount.BankAccount;
 import com.example.crowdfunding.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -16,6 +18,9 @@ import java.util.ArrayList;
 
 @Data
 @Document(collection = "Businesses")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Business {
 
     @MongoId(value = FieldType.OBJECT_ID)
@@ -28,7 +33,6 @@ public class Business {
     private String name;
 
     @JsonProperty
-    @JsonBackReference
     private User owner;
 
     @NotBlank(message = "Description  cannot be blank")

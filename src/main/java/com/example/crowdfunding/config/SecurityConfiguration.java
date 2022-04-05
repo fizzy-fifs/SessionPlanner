@@ -31,8 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+//    @Autowired
+//    private JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -60,10 +60,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/v1.0/users/{id}").anonymous().and()
                 .authorizeRequests().antMatchers("/api/v1.0/payments").anonymous().and()
                 .authorizeRequests().antMatchers("/api/v1.0/payments/create-payment-intent").anonymous().and()
-                .authorizeRequests().antMatchers("/api/v1.0/payments/{projectId}&{amount}&{userId}").anonymous()
+                .authorizeRequests().antMatchers("/api/v1.0/payments/{projectId}&{amount}&{userId}").anonymous().and()
+                .authorizeRequests().antMatchers("/api/v1.0/payments/success/{projectId}&{amount}&{userId}").anonymous()
         ;
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
+
+        http.addFilterBefore( jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(corsFilter(), SessionManagementFilter.class);
 
     }
@@ -79,6 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/api/v1.0/projects").antMatchers(HttpMethod.GET);
         web.ignoring().antMatchers("/api/v1.0/payments/**");
         web.ignoring().antMatchers("/api/v1.0/payments/create-payment-intent");
+        web.ignoring().antMatchers("/api/v1.0/payments/success/{projectId}&{amount}&{userId}");
         web.ignoring().antMatchers("/swagger-ui/**}");
     }
 

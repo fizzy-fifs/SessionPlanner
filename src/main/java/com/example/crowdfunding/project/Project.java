@@ -4,8 +4,7 @@ import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.donor.Donor;
 import com.example.crowdfunding.project.enums.Category;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -21,6 +20,9 @@ import java.util.ArrayList;
 
 @Data
 @Document(collection = "Projects")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Project {
 
     @MongoId(value = FieldType.OBJECT_ID)
@@ -39,11 +41,10 @@ public class Project {
     @JsonProperty
     private String description;
 
-    @DecimalMin(value ="0.00", inclusive = false)
-    @Digits(integer = 7, fraction = 2)
+
     @NotBlank(message = "Please specify the amount of money you intend to raise")
     @JsonProperty
-    private BigDecimal goal;
+    private double goal;
 
     @JsonProperty
 
@@ -55,7 +56,7 @@ public class Project {
     public ArrayList<String> images;
 
     @JsonProperty
-    private BigDecimal amountRaised = BigDecimal.valueOf(0);
+    private double amountRaised = 0;
 
     @JsonProperty
     public LocalDate daysLeft;
@@ -67,7 +68,8 @@ public class Project {
     private Business projectOwner;
 
     @JsonProperty
-    private ArrayList<Donor> projectDonors;
+    @JsonManagedReference
+    private ArrayList<Donor> projectDonors = new ArrayList<>();
 
     @JsonProperty
     private Address address;
@@ -81,7 +83,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(String title, Category category, String description, BigDecimal goal, LocalDate endDate, ArrayList<String> images) {
+    public Project(String title, Category category, String description, double goal, LocalDate endDate, ArrayList<String> images) {
         this.title = title;
         this.category = category;
         this.description = description;
@@ -90,7 +92,7 @@ public class Project {
         this.images = images;
     }
 
-    public Project(String name, String description, Category category, BigDecimal goal, Business projectOwner, LocalDate endDate, ArrayList<String> images) {
+    public Project(String name, String description, Category category, double goal, Business projectOwner, LocalDate endDate, ArrayList<String> images) {
         this.title = name;
         this.description = description;
         this.category = category;
@@ -100,8 +102,8 @@ public class Project {
         this.images = images;
     }
 
-    public void addDonationToAmountRaised(BigDecimal donation){
-        amountRaised.add(donation);
+    public void addDonationToAmountRaised(double donation){
+        amountRaised += donation;
     }
 
     public void addToDonorsList(Donor donor) {
