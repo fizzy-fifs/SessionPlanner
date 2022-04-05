@@ -57,7 +57,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/v1.0/users/login").anonymous().and()
                 .authorizeRequests().antMatchers("api/v1.0/projects").anonymous().and()
                 .authorizeRequests().antMatchers("/api/v1.0/businesses").anonymous().and()
-                .authorizeRequests().antMatchers("/api/v1.0/users/{id}").anonymous()
+                .authorizeRequests().antMatchers("/api/v1.0/users/{id}").anonymous().and()
+                .authorizeRequests().antMatchers("/api/v1.0/payments/**").anonymous()
         ;
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -75,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/api/v1.0/businesses").antMatchers(HttpMethod.GET);
         web.ignoring().antMatchers("/api/v1.0/projects").antMatchers(HttpMethod.GET);
         web.ignoring().antMatchers("/api/v1.0/payments/**");
+        web.ignoring().antMatchers("/api/v1.0/payments/create-payment-intent");
         web.ignoring().antMatchers("/swagger-ui/**}");
     }
 
