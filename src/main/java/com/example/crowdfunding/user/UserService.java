@@ -53,10 +53,10 @@ public class UserService implements ServiceInterface<User> {
     }
 
     @Override
-    public ResponseEntity<Object> create(User user) throws JsonProcessingException {
+    public ResponseEntity create(User user) throws JsonProcessingException {
         // Check is email is already registered
         if ( emailExists(user.getEmail()) ) {
-            return new ResponseEntity("Email already exists", HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.badRequest().body("Email already exists");
         }
 
         //Hash password and set role as user
@@ -80,7 +80,7 @@ public class UserService implements ServiceInterface<User> {
         responseData.put("user", userJson);
         responseData.put("jwt", jwt);
 
-        return new ResponseEntity(responseData, HttpStatus.OK);
+        return ResponseEntity.ok(responseData);
     }
 
     public ResponseEntity<Object> login(Map<String, String> emailAndPassword) throws Exception {

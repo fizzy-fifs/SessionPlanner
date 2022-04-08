@@ -39,7 +39,7 @@ public class BusinessService implements ServiceInterface<Business> {
         //Return new business in json format.
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String businessJson = mapper.writeValueAsString(savedBusiness);
-        return new ResponseEntity<>(businessJson, HttpStatus.OK);
+        return ResponseEntity.ok(businessJson);
     }
 
     @Override
@@ -60,15 +60,15 @@ public class BusinessService implements ServiceInterface<Business> {
         return null;
     }
 
-    public ResponseEntity<ArrayList<Business>> getBusinessByUserId(String userId) throws JsonProcessingException {
+    public ResponseEntity getBusinessByUserId(String userId) throws JsonProcessingException {
         User user = userRepository.findById(new ObjectId(userId));
-        if (user == null){ return new ResponseEntity("Invalid userId", HttpStatus.BAD_REQUEST); }
+        if (user == null){ return ResponseEntity.badRequest().body("Invalid userId"); }
 
         ArrayList<Business> businesses = businessRepository.findByOwner(user);
 
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String businessesJson = mapper.writeValueAsString(businesses);
 
-        return new ResponseEntity(businessesJson, HttpStatus.OK);
+        return ResponseEntity.ok(businessesJson);
     }
 }

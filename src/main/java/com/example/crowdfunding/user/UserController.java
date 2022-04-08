@@ -32,7 +32,7 @@ public class UserController extends AbstractController<User> {
 
 
     @PostMapping(path = "/newuser")
-    public ResponseEntity<Object> create(@RequestBody @Valid User user, Errors errors) throws JsonProcessingException {
+    public ResponseEntity create(@RequestBody @Valid User user, Errors errors) throws JsonProcessingException {
 
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest()

@@ -41,7 +41,7 @@ public class ProjectController extends AbstractController<Project> {
 
 
     @PostMapping(path = "/newproject", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
+    public ResponseEntity create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
                                          @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
                                          @ModelAttribute Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException, InterruptedException, ApiException {

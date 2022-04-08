@@ -58,7 +58,7 @@ public class BusinessController extends AbstractController<Business> {
     public ResponseEntity<Object> getAll() throws JsonProcessingException { return businessService.getAll(); }
 
     @GetMapping(path = "/getbusinessesbyuserid/{userId}")
-    public ResponseEntity<ArrayList<Business>> getBusinessByUserId(@PathVariable("userId") String userId) throws JsonProcessingException {
+    public ResponseEntity getBusinessByUserId(@PathVariable("userId") String userId) throws JsonProcessingException {
         return businessService.getBusinessByUserId(userId);
     }
 
