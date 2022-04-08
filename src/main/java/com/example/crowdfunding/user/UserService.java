@@ -78,6 +78,7 @@ public class UserService implements ServiceInterface<User> {
         String userJson = mapper.writeValueAsString(savedUser);
 
         responseData.put("user", userJson);
+        responseData.put("name", savedUser.getName());
         responseData.put("jwt", jwt);
 
         return ResponseEntity.ok(responseData);
@@ -105,6 +106,7 @@ public class UserService implements ServiceInterface<User> {
 
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("user", userJson);
+        responseData.put("name", user.getName());
         responseData.put("jwt", jwt);
 
         return ResponseEntity.ok(responseData);
