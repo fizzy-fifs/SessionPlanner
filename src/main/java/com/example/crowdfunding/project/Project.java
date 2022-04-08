@@ -78,6 +78,9 @@ public class Project {
     @JsonProperty
     private String Longitude;
 
+    @JsonProperty
+    private int percentageRaised = (int) ((amountRaised/goal) * 100);
+
     public Project() {
     }
 
@@ -108,4 +111,7 @@ public class Project {
         projectDonors.add(donor);
     }
 
+    private void setPercentageRaised(){
+
+    }
 }

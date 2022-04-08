@@ -85,6 +85,10 @@ public class ProjectController extends AbstractController<Project> {
         return projectService.getProjectById(projectId);
     }
 
+    @GetMapping("/getcategories")
+    public ResponseEntity<Object> getAllCategories(){
+        return projectService.getAllCategories();
+    }
     public String update(String id, Project newInfo) {
         return null;
     }

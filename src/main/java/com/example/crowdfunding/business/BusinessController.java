@@ -1,5 +1,6 @@
 package com.example.crowdfunding.business;
 
+import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
 import com.example.crowdfunding.user.User;
@@ -29,9 +30,9 @@ public class BusinessController extends AbstractController<Business> {
     private UserRepository userRepository;
 
     @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create( @RequestParam(name = "name") @Valid String name,
-                                          @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
-                                          @RequestParam(name = "images")ArrayList<MultipartFile> images) throws JsonProcessingException {
+    public ResponseEntity<Object> create(@RequestParam(name = "name") @Valid String name,
+                                         @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
+                                         @RequestParam(name = "images")ArrayList<MultipartFile> images, @ModelAttribute Address address) throws JsonProcessingException {
         //Get associated user
         User user = userRepository.findById(new ObjectId(userId));
 
@@ -48,6 +49,7 @@ public class BusinessController extends AbstractController<Business> {
         business.setOwner(user);
         business.setDescription(description);
         business.setImages(imageUrls);
+        business.setAddress(address);
 
         return businessService.create(business);
     }

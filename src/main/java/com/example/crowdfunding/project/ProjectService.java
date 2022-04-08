@@ -5,6 +5,7 @@ import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.geocoding.GeocodeLocation;
 import com.example.crowdfunding.geocoding.GeocodingService;
 import com.example.crowdfunding.interfaces.ServiceInterface;
+import com.example.crowdfunding.project.enums.Category;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.errors.ApiException;
@@ -77,5 +78,10 @@ public class ProjectService implements ServiceInterface<Project> {
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String projectJson = mapper.writeValueAsString(project);
         return ResponseEntity.ok(projectJson);
+    }
+
+    public ResponseEntity<Object> getAllCategories() {
+        Category[] allCategories = Category.values();
+        return ResponseEntity.ok(allCategories);
     }
 }
