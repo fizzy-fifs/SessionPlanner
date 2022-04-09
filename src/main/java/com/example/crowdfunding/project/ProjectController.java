@@ -46,7 +46,7 @@ public class ProjectController extends AbstractController<Project> {
                                          @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
                                          @ModelAttribute Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images, Errors errors) throws IOException, InterruptedException, ApiException {
 
-        if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors()); }
+        if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors().get(0).getDefaultMessage()); }
 
         String escapedCategory = category.replaceAll("\\s+","");
         //Upload images and retrieve their corresponding urls

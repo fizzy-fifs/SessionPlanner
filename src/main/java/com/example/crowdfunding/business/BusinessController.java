@@ -35,7 +35,7 @@ public class BusinessController extends AbstractController<Business> {
                                          @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
                                          @RequestParam(name = "images")ArrayList<MultipartFile> images, @ModelAttribute Address address) throws JsonProcessingException {
 
-        if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors()); }
+        if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors().get(0).getDefaultMessage()); }
         //Get associated user
         User user = userRepository.findById(new ObjectId(userId));
 

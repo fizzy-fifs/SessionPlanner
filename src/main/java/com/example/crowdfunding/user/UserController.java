@@ -35,7 +35,7 @@ public class UserController extends AbstractController<User> {
     public ResponseEntity create(@RequestBody @Valid User user, Errors errors) throws JsonProcessingException {
 
         if (errors.hasErrors()) {
-            return ResponseEntity.ok(errors.getAllErrors());
+            return ResponseEntity.ok(errors.getAllErrors().get(0).getDefaultMessage());
         }
 
         return userService.create(user);
