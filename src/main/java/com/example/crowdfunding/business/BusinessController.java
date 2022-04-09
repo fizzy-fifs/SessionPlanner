@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,9 +31,11 @@ public class BusinessController extends AbstractController<Business> {
     private UserRepository userRepository;
 
     @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create(@RequestParam(name = "name") @Valid String name,
+    public ResponseEntity<Object> create(@RequestParam(name = "name") @Valid String name, Errors errors,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
                                          @RequestParam(name = "images")ArrayList<MultipartFile> images, @ModelAttribute Address address) throws JsonProcessingException {
+
+        if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors()); }
         //Get associated user
         User user = userRepository.findById(new ObjectId(userId));
 
