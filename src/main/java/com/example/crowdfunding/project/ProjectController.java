@@ -44,7 +44,9 @@ public class ProjectController extends AbstractController<Project> {
     public ResponseEntity create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
                                          @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
-                                         @ModelAttribute Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images) throws IOException, InterruptedException, ApiException {
+                                         @ModelAttribute Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images, Errors errors) throws IOException, InterruptedException, ApiException {
+
+        if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors()); }
 
         String escapedCategory = category.replaceAll("\\s+","");
         //Upload images and retrieve their corresponding urls
