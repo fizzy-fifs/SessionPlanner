@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProjectService implements ServiceInterface<Project> {
@@ -49,7 +51,11 @@ public class ProjectService implements ServiceInterface<Project> {
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String projectJson = mapper.writeValueAsString(savedProject);
 
-        return ResponseEntity.ok(projectJson);
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("project", savedProject);
+        responseData.put("name", savedProject.getTitle());
+
+        return ResponseEntity.ok(responseData);
     }
 
     @Override

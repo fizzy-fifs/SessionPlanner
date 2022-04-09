@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BusinessService implements ServiceInterface<Business> {
@@ -35,7 +37,12 @@ public class BusinessService implements ServiceInterface<Business> {
         //Return new business in json format.
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String businessJson = mapper.writeValueAsString(savedBusiness);
-        return ResponseEntity.ok(businessJson);
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("business", businessJson);
+        responseData.put("name", savedBusiness.getName());
+
+        return ResponseEntity.ok(responseData);
     }
 
     @Override
