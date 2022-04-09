@@ -56,7 +56,7 @@ public class UserService implements ServiceInterface<User> {
     public ResponseEntity create(User user) throws JsonProcessingException {
         // Check is email is already registered
         if ( emailExists(user.getEmail()) ) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            return ResponseEntity.ok("Email already exists");
         }
 
         //Hash password and set role as user
@@ -93,7 +93,7 @@ public class UserService implements ServiceInterface<User> {
                     .authenticate(new UsernamePasswordAuthenticationToken(email, password))
             ;
         }catch(BadCredentialsException e) {
-            return ResponseEntity.badRequest().body("Invalid email or password");
+            return ResponseEntity.ok("Invalid email or password");
         }
 
         final UserDetails userDetails = myUserDetailsService.loadUserByUsername(email);

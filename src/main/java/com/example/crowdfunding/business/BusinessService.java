@@ -32,10 +32,6 @@ public class BusinessService implements ServiceInterface<Business> {
         String userId = savedBusiness.getOwner().getId();
         User user = userRepository.findById(new ObjectId(userId));
 
-        //Add business to user and save updated user in db.
-//        user.addToListOfBusinesses(savedBusiness);
-//        userRepository.save(user);
-
         //Return new business in json format.
         ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         String businessJson = mapper.writeValueAsString(savedBusiness);
