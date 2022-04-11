@@ -17,7 +17,7 @@ public class SendGridService {
         Email receiver = new Email(to);
 
         String subject = "Your FundedLocal Donation";
-        String message = MessageFormat.format("Thank you for donating to {0}, you have earned {1}. Your unique identification number is {2}", projectTitle, rewardName, rewardId);
+        String message = MessageFormat.format("Thank you for donating to {0} on FundedLocal, you have earned {1}. Your unique identification number is {2}", projectTitle, rewardName, rewardId);
         Content content = new Content("text/plain",message);
 
         Mail mail = new Mail(sender, subject, receiver, content);
@@ -30,20 +30,18 @@ public class SendGridService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
         } catch (IOException ex){
             throw ex;
         }
     }
 
-    public static void sendDonorListEmail(String to, String googleSheetsId) throws IOException {
+    public static void sendDonorListEmail(String to, String fileId) throws IOException {
         Email sender = new Email("BusinessMagic2@gmail.com");
         Email receiver = new Email(to);
 
         String subject = "Congratulations on completing your raise";
-        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: https://docs.google.com/spreadsheets/d/{0}/edit", googleSheetsId);
+        String message = MessageFormat.format("Congratulations on completing your raise. Here is a list of people who funded your project: https://docs.google.com/spreadsheets/d/{0}/edit", fileId);
         Content content = new Content("text/plain",message);
 
         Mail mail = new Mail(sender, subject, receiver, content);
@@ -56,9 +54,7 @@ public class SendGridService {
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
         } catch (IOException ex){
             throw ex;
         }
