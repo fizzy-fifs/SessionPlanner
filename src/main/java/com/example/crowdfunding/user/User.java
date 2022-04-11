@@ -26,7 +26,7 @@ public class User {
     private String id;
 
     @NotBlank(message = "Name cannot be blank")
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Name can only contain letters")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name can only contain letters")
     @JsonProperty
     private String name;
 
