@@ -91,6 +91,7 @@ public class ProjectController extends AbstractController<Project> {
     public ResponseEntity<Object> getAllCategories(){
         return projectService.getAllCategories();
     }
+
     public String update(String id, Project newInfo) {
         return null;
     }
