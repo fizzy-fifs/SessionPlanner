@@ -31,11 +31,6 @@ import java.util.Map;
 @EnableWebMvc
 public class crowdfundingApplication extends WebMvcAutoConfiguration {
 
-//	@PostConstruct
-//	public void setup() {
-//		Stripe.apiKey = "sk_test_51KeDy4FkYRYTO3iFNb2qqLkowbG3kchP8NnHiJxsiJxlqXgnA2417cqAOgSgjygFjjvjyxqrlT336iH9WUI2tfaj00ALSQuIdp";
-//	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(crowdfundingApplication.class, args);
 	}
@@ -69,9 +64,4 @@ public class crowdfundingApplication extends WebMvcAutoConfiguration {
 				.setSerializationInclusion(JsonInclude.Include.NON_NULL)
 				.registerModule(module);
 	}
-
-//	@Bean
-//	public RestTemplate restTemplate() {
-//		return new RestTemplate();
-//	}
 }
