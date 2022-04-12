@@ -7,5 +7,6 @@ public enum Category {
     Meals,
     Art,
     Tech,
+    Website,
     Other
 }
