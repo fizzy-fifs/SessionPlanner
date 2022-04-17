@@ -240,6 +240,12 @@
 			<version>v3-rev197-1.25.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.javatuples</groupId>
+			<artifactId>javatuples</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

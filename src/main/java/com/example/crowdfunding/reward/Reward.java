@@ -21,21 +21,16 @@ public class Reward {
     private String id;
 
     @JsonProperty
-    private String name;
+    private double minimumThreshold;
 
-    @JsonBackReference
-    private String projectId;
+    @JsonProperty
+    private String minimumThresholdReward;
 
-    @JsonIgnore
-    private ArrayList<String> rewardsList = new ArrayList<>() {
-        {
-            add("Free cinema tickets for two");
-            add("A romantic dinner for two");
-            add("A $50 Amazon voucher");
-            add("A Sony Playstation 5");
-            add("An all expense paid trip to Santorini");
-        }
-    };
+    @JsonProperty
+    private double higherThreshold;
+
+    @JsonProperty
+    private String higherThresholdReward;
 
     public Reward() {}
 }

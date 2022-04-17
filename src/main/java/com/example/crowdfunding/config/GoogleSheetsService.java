@@ -120,8 +120,7 @@ public class GoogleSheetsService {
                     donor.getDonor().getName(),
                     donor.getDonor().getEmail(),
                     donor.getAmountDonated(),
-                    donor.getReward().getName(),
-                    donor.getReward().getId()
+                    donor.getRewardName()
            );
            values.add(eachValue);
         }

@@ -4,6 +4,7 @@ import com.example.crowdfunding.address.Address;
 import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.donor.Donor;
 import com.example.crowdfunding.project.enums.Category;
+import com.example.crowdfunding.reward.Reward;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -79,7 +80,10 @@ public class Project {
     private String Longitude;
 
     @JsonProperty
-    private int percentageRaised = (int) ((amountRaised/goal) * 100);
+    private int percentageRaised;
+
+    @JsonProperty
+    private Reward reward;
 
     public Project() {
     }
@@ -111,7 +115,7 @@ public class Project {
         projectDonors.add(donor);
     }
 
-    private void setPercentageRaised(){
-
+    public void setPercentageRaised(){
+        this.percentageRaised = ((int) ((amountRaised / goal) * 100));
     }
 }

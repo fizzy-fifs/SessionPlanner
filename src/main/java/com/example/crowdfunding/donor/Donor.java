@@ -29,11 +29,11 @@ public class Donor {
     private double amountDonated;
 
     @JsonProperty
-    private Reward reward;
+    private String rewardName;
 
-    public Donor(User donor, double amountDonated, Reward reward) {
+    public Donor(User donor, double amountDonated, String rewardName) {
         this.donor = donor;
         this.amountDonated = amountDonated;
-        this.reward = reward;
+        this.rewardName = rewardName;
     }
 }

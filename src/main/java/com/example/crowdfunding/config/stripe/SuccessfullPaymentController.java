@@ -21,6 +21,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class SuccessfullPaymentController {
@@ -40,17 +42,18 @@ public class SuccessfullPaymentController {
 
         //Find donor in user repo and generate user's reward
         User user = userRepository.findById(new ObjectId(userId));
-        Reward reward = rewardService.createReward(user, project);
+        var reward = rewardService.addToUser(user, project, amount);
         userRepository.save(user);
 
         //Send email to user
-        SendGridService.sendRewardsEmail(user.getEmail(), project.getTitle(), reward.getName(), reward.getId().toString());
+        SendGridService.sendRewardsEmail(user.getEmail(), project.getTitle(), reward.getValue0().toString(), reward.getValue1().toString());
 
 
         // Add donated amount and donor to project
         project.addDonationToAmountRaised((double)amount);
+        project.setPercentageRaised();
         project.addToDonorsList(
-                new Donor(user, amount, reward)
+                new Donor(user, amount, reward.getValue0().toString())
         );
         projectRepository.save(project);
 

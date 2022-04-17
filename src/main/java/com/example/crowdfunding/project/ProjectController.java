@@ -6,6 +6,7 @@ import com.example.crowdfunding.business.BusinessRepository;
 import com.example.crowdfunding.cloudinary.CloudinaryService;
 import com.example.crowdfunding.interfaces.AbstractController;
 import com.example.crowdfunding.project.enums.Category;
+import com.example.crowdfunding.reward.Reward;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.maps.errors.ApiException;
 import org.bson.types.ObjectId;
@@ -42,9 +43,11 @@ public class ProjectController extends AbstractController<Project> {
 
     @PostMapping(path = "/newproject", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity create(@RequestParam(name = "title") @Valid String title, @RequestParam(name = "category") String category,
-                                         @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
-                                         @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
-                                         @ModelAttribute Address address, @RequestParam(name = "images")ArrayList<MultipartFile> images, Errors errors) throws IOException, InterruptedException, ApiException {
+                                 @RequestParam(name = "description") String description, @RequestParam(name = "goal") double goal,
+                                 @RequestParam(name = "endDate") LocalDate endDate, @RequestParam(name = "businessId") String businessId,
+                                 @ModelAttribute Address address, @ModelAttribute Reward reward,
+                                 @RequestParam(name = "images")ArrayList<MultipartFile> images, Errors errors)
+                                 throws IOException, InterruptedException, ApiException {
 
         if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors().get(0).getDefaultMessage()); }
 
@@ -74,6 +77,7 @@ public class ProjectController extends AbstractController<Project> {
         project.setEndDate(endDate);
         project.setProjectOwner(business);
         project.setAddress(address);
+        project.setReward(reward);
         project.setImages(imageUrls);
 
         return projectService.create(project);

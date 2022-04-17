@@ -1,33 +1,46 @@
 package com.example.crowdfunding.reward;
 
-import com.example.crowdfunding.business.Business;
 import com.example.crowdfunding.project.Project;
 import com.example.crowdfunding.user.User;
+import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class RewardService {
     @Autowired
     private RewardRepository rewardRepository;
 
-    public Reward createReward(User user, Project project) {
-        //Select a reward at random from the rewards list
-        Reward reward = new Reward();
-        Random random = new Random();
-        int randomItem = random.nextInt(reward.getRewardsList().size());
+    public Pair addToUser(User user, Project project, double amount) {
 
-        //Set the reward's name and associated business
-        reward.setName(reward.getRewardsList().get(randomItem));
-        reward.setProjectId(project.getId());
+        var amountisAboveMinThreshold = amount >= project.getReward().getMinimumThreshold() && amount < project.getReward().getHigherThreshold();
+        var amountIsAboveHigherThreshold = amount >= project.getReward().getHigherThreshold();
 
-        //Save reward in db
-        rewardRepository.insert(reward);
+        if (amountisAboveMinThreshold) {
 
-        //Add created reward to the user's earned rewards list
-        user.addToRewardsList(reward);
-        return reward;
+            var reward = project.getReward().getMinimumThresholdReward();
+
+            Map<String, String> rewardMap = new HashMap<String, String>() {{
+                put("reward", reward);
+                put("projectId", project.getId());
+            }};
+            user.addToRewardsList(rewardMap);
+            return Pair.with(reward, project.getId());
+        } else if (amountIsAboveHigherThreshold) {
+
+            var reward = project.getReward().getHigherThresholdReward();
+
+            Map<String, String> rewardMap = new HashMap<String, String>() {{
+                put("reward", reward);
+                put("projectId", project.getId());
+            }};
+            user.addToRewardsList(rewardMap);
+            return Pair.with(reward, project.getId());
+        }
+
+        return null;
     }
 }

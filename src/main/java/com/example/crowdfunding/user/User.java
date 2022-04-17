@@ -1,7 +1,6 @@
 package com.example.crowdfunding.user;
 
 import com.example.crowdfunding.bankAccount.BankAccount;
-import com.example.crowdfunding.reward.Reward;
 import com.example.crowdfunding.reward.RewardService;
 import com.example.crowdfunding.user.role.Role;
 import com.fasterxml.jackson.annotation.*;
@@ -14,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @Document(collection="Users")
@@ -54,7 +55,7 @@ public class User {
     private BankAccount bankAccount;
 
     @JsonProperty
-    private ArrayList<Reward> earnedRewards = new ArrayList<>();
+    private ArrayList<Map<String, String>> earnedRewards = new ArrayList<>();
 
     @JsonProperty
     private Collection<Role> roles;
@@ -85,7 +86,7 @@ public class User {
         this.password = password;
     }
 
-    public void addToRewardsList(Reward reward) {
+    public void addToRewardsList(Map<String, String> reward) {
         earnedRewards.add(reward);
     }
 }
