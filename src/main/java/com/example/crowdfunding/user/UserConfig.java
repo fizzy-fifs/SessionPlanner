@@ -13,8 +13,8 @@ public class UserConfig {
         return args -> { repository.findAll(); };
     }
 
-    @Bean
-    public JwtUtil jwtUtilBean() {
-        return new JwtUtil();
-    }
+//    @Bean
+//    public JwtUtil jwtUtilBean() {
+//        return new JwtUtil();
+//    }
 }

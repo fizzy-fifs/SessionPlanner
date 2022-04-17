@@ -31,8 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-//    @Autowired
-//    private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -64,8 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/v1.0/payments/{projectId}&{amount}&{userId}").anonymous().and()
                 .authorizeRequests().antMatchers("/api/v1.0/payments/success/{projectId}&{amount}&{userId}").anonymous()
         ;
-
-        JwtRequestFilter jwtRequestFilter = new JwtRequestFilter();
 
         http.addFilterBefore( jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(corsFilter(), SessionManagementFilter.class);

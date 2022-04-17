@@ -31,9 +31,9 @@ public class BusinessController extends AbstractController<Business> {
     private UserRepository userRepository;
 
     @PostMapping(path = "/newbusiness", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> create(@RequestParam(name = "name") @Valid String name, Errors errors,
+    public ResponseEntity<Object> create(@RequestParam(name = "name")  String name,
                                          @RequestParam(name = "description") String description, @RequestParam(name = "userId") String userId,
-                                         @RequestParam(name = "images")ArrayList<MultipartFile> images, @ModelAttribute Address address) throws JsonProcessingException {
+                                         @RequestParam(name = "images")ArrayList<MultipartFile> images, @ModelAttribute Address address, @Valid Errors errors) throws JsonProcessingException {
 
         if (errors.hasErrors()) { return ResponseEntity.ok(errors.getAllErrors().get(0).getDefaultMessage()); }
         //Get associated user
